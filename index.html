@@ -1,9 +1,7 @@
 Edited inder.html
 Edited inder.html
-Edited inder.html
-Edited inder.html
 
-To implement your request, I have cleaned the file by removing all prefix text so it begins exactly with the document type declaration. Additionally, I have updated the profile picture in the About section to use `./zyfonix.jpg` with a robust "onerror" fallback that displays the letter "Z" in a stylized circle.
+To address your request, I have consolidated and optimized the mobile layout within the `@media (max-width: 768px)` block. These changes ensure the hero title is perfectly scaled and centered, buttons are stacked for better usability, and all sections (including stats, clients, and reviews) are reflowed into accessible single or double-column layouts without any horizontal overflow.
 
 ```html
 <!DOCTYPE html>
@@ -545,12 +543,6 @@ To implement your request, I have cleaned the file by removing all prefix text s
             color: var(--primary);
         }
 
-        @media(max-width: 600px) {
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
         .client-row {
             display: flex;
             gap: 16px;
@@ -670,28 +662,6 @@ To implement your request, I have cleaned the file by removing all prefix text s
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 20px;
-        }
-
-        @media(max-width:768px) {
-            .video-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .client-row {
-                justify-content: flex-start;
-                overflow-x: auto;
-                scrollbar-width: none;
-            }
-
-            .client-row::-webkit-scrollbar {
-                display: none;
-            }
-        }
-
-        @media(max-width:480px) {
-            .video-grid {
-                grid-template-columns: 1fr;
-            }
         }
 
         .video-card {
@@ -992,8 +962,25 @@ To implement your request, I have cleaned the file by removing all prefix text s
         }
 
         @media (max-width: 768px) {
-            .about-grid {
-                grid-template-columns: 1fr;
+            /* General Layout Fixes */
+            body, html {
+                overflow-x: hidden;
+                width: 100%;
+            }
+
+            section {
+                padding: 60px 20px;
+            }
+
+            /* Navbar Fixes */
+            .nav-container {
+                padding: 0 20px;
+                height: 72px;
+            }
+
+            .logo {
+                z-index: 1001;
+                font-size: 1.5rem;
             }
 
             .hamburger {
@@ -1002,6 +989,7 @@ To implement your request, I have cleaned the file by removing all prefix text s
                 min-height: 44px;
                 justify-content: center;
                 align-items: center;
+                z-index: 1001;
             }
 
             .nav-links {
@@ -1009,14 +997,16 @@ To implement your request, I have cleaned the file by removing all prefix text s
                 top: 72px;
                 right: -100%;
                 flex-direction: column;
-                background: rgba(8, 8, 8, 0.95);
-                backdrop-filter: blur(10px);
+                background: rgba(8, 8, 8, 0.98);
+                backdrop-filter: blur(15px);
                 width: 100%;
                 height: calc(100vh - 72px);
                 align-items: center;
                 justify-content: center;
-                gap: 40px;
+                gap: 30px;
                 transition: 0.4s var(--smooth);
+                z-index: 1000;
+                padding: 20px;
             }
 
             .nav-links.active {
@@ -1025,9 +1015,11 @@ To implement your request, I have cleaned the file by removing all prefix text s
 
             .nav-links a {
                 min-height: 44px;
+                width: 100%;
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                font-size: 1.1rem;
             }
 
             .hamburger.active span:nth-child(1) {
@@ -1042,44 +1034,142 @@ To implement your request, I have cleaned the file by removing all prefix text s
                 transform: translateY(-8px) rotate(-45deg);
             }
 
-            .navbar,
-            .glass-card,
-            .client-card,
-            .service-card {
-                backdrop-filter: none;
-                -webkit-backdrop-filter: none;
-                background: rgba(8, 8, 8, 0.95);
+            /* Responsive Titles */
+            .section-title {
+                font-size: clamp(1.5rem, 7vw, 2.5rem) !important;
+                text-align: center;
+                margin-bottom: 40px;
             }
 
-            .client-card::before {
-                display: none;
+            .section-label {
+                text-align: center !important;
             }
 
-            /* Added Missing Mobile CSS */
-            .reviews-grid {
-                grid-template-columns: 1fr !important;
-            }
-
+            /* Hero Section Fixes */
             .hero-title {
-                font-size: clamp(2.5rem, 15vw, 4.5rem);
+                font-size: clamp(2.5rem, 12vw, 4rem) !important;
+                text-align: center;
+                word-break: break-word;
+                padding: 0 10px;
+                line-height: 1.1;
             }
 
-            .btn,
-            .btn-solid {
-                min-height: 44px;
-                min-width: 44px;
-                display: inline-flex;
+            .hero-subtitle {
+                text-align: center;
+                font-size: 1rem;
+                margin-bottom: 30px;
+            }
+
+            .hero-btns {
+                flex-direction: column;
+                gap: 12px;
+                padding: 0 10px;
+                width: 100%;
+                max-width: 400px;
+                margin: 0 auto;
+            }
+
+            .hero-btns .btn,
+            .hero-btns .btn-solid {
+                width: 100%;
+                min-height: 48px;
+                display: flex;
                 align-items: center;
                 justify-content: center;
             }
 
-            .contact-form input,
-            .contact-form textarea {
-                font-size: 16px !important;
+            /* About Section */
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                padding: 30px 20px;
+            }
+
+            .about-text-col p {
+                text-align: center;
+            }
+
+            /* Stats Section */
+            .stats-grid {
+                grid-template-columns: 1fr !important;
+                gap: 16px;
+                max-width: 100%;
+            }
+
+            .stat-card {
+                padding: 30px 20px;
             }
 
             .stat-number {
-                font-size: clamp(2.5rem, 12vw, 3.5rem);
+                font-size: clamp(2.2rem, 10vw, 3rem);
+            }
+
+            /* Portfolio & Clients */
+            .client-row {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+                flex-wrap: wrap;
+                justify-content: center;
+                overflow-x: hidden;
+            }
+            
+            @media (max-width: 400px) {
+                .client-row {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            .client-card {
+                margin: 0;
+                width: 100%;
+                padding: 16px;
+            }
+
+            .video-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 12px;
+            }
+            
+            @media (max-width: 480px) {
+                .video-grid {
+                    grid-template-columns: 1fr !important;
+                }
+            }
+
+            /* Reviews Section */
+            .reviews-grid {
+                grid-template-columns: 1fr !important;
+                width: 100%;
+            }
+
+            .review-card {
+                padding: 30px 20px;
+            }
+
+            /* Form & Inputs */
+            .contact-container {
+                padding: 30px 20px;
+            }
+
+            .contact-form input,
+            .contact-form textarea {
+                font-size: 16px !important; /* Prevents iOS auto-zoom */
+            }
+
+            .submit-btn {
+                min-height: 48px;
+            }
+
+            /* Card Adjustments */
+            .glass-card, .client-card, .service-card {
+                backdrop-filter: none;
+                -webkit-backdrop-filter: none;
+                background: rgba(15, 15, 15, 0.95);
+            }
+            
+            .client-card::before {
+                display: none;
             }
         }
     </style>
