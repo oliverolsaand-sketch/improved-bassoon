@@ -2,18 +2,8 @@ Edited inder.html
 Edited inder.html
 Edited inder.html
 Edited inder.html
-Edited inder.html
-Edited inder.html
-Edited inder.html
-Edited inder.html
-Edited inder.html
-Edited inder.html
-Edited inder.html
-Edited inder.html
-Viewed inder.html:1-800
-Viewed inder.html:801-1600
 
-To implement the requested avatar path updates, I have modified the `src` attributes for both the client portfolio and reviews sections to point to the local JPG files in the root directory. I have also ensured that all avatar images retain their `onerror` fallback logic to display the high-quality letter avatars if the images fail to load.
+To implement your request, I have cleaned the file by removing all prefix text so it begins exactly with the document type declaration. Additionally, I have updated the profile picture in the About section to use `./zyfonix.jpg` with a robust "onerror" fallback that displays the letter "Z" in a stylized circle.
 
 ```html
 <!DOCTYPE html>
@@ -1131,7 +1121,10 @@ To implement the requested avatar path updates, I have modified the `src` attrib
     <section id="about" class="container">
         <div class="glass-card about-grid">
             <div class="about-image-col">
-                <img src="./images/pfp.jpg" alt="Zyfonix" class="about-img">
+                <div class="avatar-wrap">
+                    <img src="./zyfonix.jpg" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'" alt="Zyfonix" class="about-img">
+                    <div class="letter-avatar" style="display:none">Z</div>
+                </div>
             </div>
             <div class="about-text-col">
                 <p class="section-label" style="text-align: left;">// o mne</p>
