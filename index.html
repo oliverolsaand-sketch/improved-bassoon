@@ -1045,11 +1045,13 @@
 
             /* Hero Section Fixes */
             .hero-title {
-                font-size: clamp(2.5rem, 12vw, 4rem) !important;
+                font-size: clamp(2.8rem, 14vw, 5rem) !important;
                 text-align: center;
                 word-break: break-word;
                 padding: 0 10px;
                 line-height: 1.1;
+                letter-spacing: 0.05em;
+                white-space: normal;
             }
 
             .hero-subtitle {
@@ -1109,7 +1111,9 @@
                 gap: 12px;
                 flex-wrap: wrap;
                 justify-content: center;
-                overflow-x: hidden;
+                overflow: visible !important;
+                padding: 0 16px;
+                box-sizing: border-box;
             }
 
             @media (max-width: 400px) {
@@ -1120,8 +1124,10 @@
 
             .client-card {
                 margin: 0;
-                width: 100%;
+                width: 100% !important;
+                max-width: 100% !important;
                 padding: 16px;
+                overflow: visible !important;
             }
 
             .video-grid {
@@ -1213,7 +1219,7 @@
         <div class="glass-card about-grid">
             <div class="about-image-col">
                 <div class="avatar-wrap">
-                    <img src="./zyfonix.jpg.jpg" onerror="this.onerror=null; this.src='./zyfonix.jpg.jpg'" alt="Zyfonix"
+                    <img src="./zyfonix.jpg" onerror="this.onerror=null; this.src='./zyfonix.jpg'" alt="Zyfonix"
                         class="about-img">
                     <div class="letter-avatar" style="display:none">Z</div>
                 </div>
@@ -1371,9 +1377,8 @@
                         style="color: var(--primary); font-weight: bold; margin-top: 8px; display: inline-block;">zyfonix.yt@gmail.com</a>
                 </p>
             </div>
-            <form action="https://formspree.io/f/FORMSPREE_ID" method="POST" class="contact-form">
-                <input type="hidden" name="_replyto" value="zyfonix.yt@gmail.com">
-                <input type="hidden" name="_subject" value="Nová správa z webu - Zyfonix">
+            <form id="contact-form" action="https://formspree.io/f/VLOZ_TVOJE_ID" method="POST" class="contact-form">
+                <input type="hidden" name="_subject" value="Nová správa z Zyfonix webu">
                 <div class="input-group">
                     <label for="name">Meno</label>
                     <input type="text" id="name" name="name" required placeholder="Vaše meno">
@@ -1569,8 +1574,28 @@
             });
         });
 
-        const form = document.querySelector('#contact form');
-        if (form) form.addEventListener('submit', async (e) => { e.preventDefault(); const data = new FormData(form); const res = await fetch(form.action, { method: 'POST', body: data, headers: { 'Accept': 'application/json' } }); if (res.ok) { form.style.display = 'none'; document.getElementById('form-success').style.display = 'block'; } });
+        const form = document.getElementById('contact-form');
+        if (form) {
+            form.addEventListener('submit', async e => {
+                e.preventDefault();
+                const btn = form.querySelector('button');
+                const originalText = btn.textContent;
+                btn.textContent = 'Odosielam...';
+                btn.disabled = true;
+                const res = await fetch(form.action, {
+                    method: 'POST',
+                    body: new FormData(form),
+                    headers: { 'Accept': 'application/json' }
+                });
+                if (res.ok) {
+                    form.style.display = 'none';
+                    document.getElementById('form-success').style.display = 'block';
+                } else {
+                    btn.textContent = 'Chyba, skús znova';
+                    btn.disabled = false;
+                }
+            });
+        }
 
         const canvas = document.getElementById('particle-canvas'); const ctx = canvas.getContext('2d');
         let width, height, particles = [], animationId;
