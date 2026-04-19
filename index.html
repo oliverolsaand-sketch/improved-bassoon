@@ -459,11 +459,13 @@
 
         .about-img {
             width: 100%;
+            max-width: 280px;
             aspect-ratio: 4/5;
             border-radius: 16px;
             border: 2px solid rgba(0, 255, 136, 0.3);
             box-shadow: 0 0 40px rgba(0, 255, 136, 0.12);
             object-fit: cover;
+            display: block;
             transition: all 0.6s var(--smooth);
         }
 
@@ -1211,8 +1213,7 @@
         <div class="glass-card about-grid">
             <div class="about-image-col">
                 <div class="avatar-wrap">
-                    <img src="./zyfonix.jpg"
-                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'" alt="Zyfonix"
+                    <img src="./zyfonix.jpg" onerror="this.onerror=null; this.src='./zyfonix.jpg'" alt="Zyfonix"
                         class="about-img">
                     <div class="letter-avatar" style="display:none">Z</div>
                 </div>
@@ -1310,7 +1311,7 @@
                     <div class="letter-avatar" style="display:none; width:80px; height:80px; font-size: 32px;">S</div>
                 </div>
                 <span class="quote-mark">"</span>
-                <p class="review-text">Kvalitný edit, som veľmi spokojný. Odporúčam každému kto hľadá spoľahlivého
+                <p class="review-text">Kvalitný edit, som veľmi spokojný. Odporúčam každému kto hľará spoľahlivého
                     editora!</p>
                 <div class="review-author">— Skyf (130K+ odberateľov)</div>
             </div>
