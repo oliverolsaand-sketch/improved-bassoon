@@ -1,16 +1,3 @@
-Listed directory Zyfonix
-Viewed zyfonix%20-%20portfolio%20-%20antigravity.html:1-800
-Viewed zyfonix%20-%20portfolio%20-%20antigravity.html:801-1195
-Viewed zyfonix%20-%20portfolio%20-%20antigravity.txt:1-800
-Viewed zyfonix%20-%20portfolio%20-%20antigravity.txt:801-987
-Viewed zyfonix%20.%20portfolio%201.html:1-800
-Viewed zyfonix%20.%20portfolio%201.html:801-1300
-Viewed ZYFONIX%20_%20Video%20Editor%201.html:1-800
-Viewed ZYFONIX%20_%20Video%20Editor%201.html:801-1279
-Viewed zyfonix%202.portoflio.css:1-800
-Viewed zyfonix%202.portoflio.css:801-1600
-Viewed zyfonix%202.portoflio.css:1601-1902
-
 <!DOCTYPE html>
 <html lang="sk">
 
@@ -730,6 +717,13 @@ Viewed zyfonix%202.portoflio.css:1601-1902
             transform: scale(1.08);
         }
 
+        .video-thumb-wrap.ig-thumb {
+            background: linear-gradient(135deg, #405de6, #5851db, #833ab4, #c13584, #e1306c, #fd1d1d);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         .play-icon {
             position: absolute;
             top: 50%;
@@ -777,6 +771,32 @@ Viewed zyfonix%202.portoflio.css:1601-1902
 
         .video-card:hover .yt-badge {
             opacity: 1;
+        }
+
+        .ig-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: linear-gradient(45deg, #405de6, #833ab4, #e1306c, #fd1d1d);
+            color: white;
+            font-size: 11px;
+            border-radius: 4px;
+            padding: 2px 6px;
+            z-index: 2;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            opacity: 0;
+            transition: opacity 0.3s var(--smooth);
+        }
+
+        .video-card:hover .ig-badge {
+            opacity: 1;
+        }
+
+        .ig-icon-large {
+            width: 44px;
+            height: 44px;
+            opacity: 0.85;
         }
 
         .reviews-grid {
@@ -1323,6 +1343,16 @@ Viewed zyfonix%202.portoflio.css:1601-1902
                 <div class="client-name">JonglesGTA</div>
                 <div class="client-subs">YouTube</div>
             </div>
+            <div class="client-card" data-client="twiler">
+                <div class="avatar-wrap">
+                    <img src="./twiler.jpg"
+                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
+                        style="width:64px;height:64px;border-radius:50%;object-fit:cover;border:2px solid #aaaaaa">
+                    <div class="letter-avatar" style="display:none">T</div>
+                </div>
+                <div class="client-name">TwileR</div>
+                <div class="client-subs">YouTube</div>
+            </div>
         </div>
         <div class="video-grid" id="video-grid"></div>
     </section>
@@ -1388,12 +1418,12 @@ Viewed zyfonix%202.portoflio.css:1601-1902
         <h2 class="section-title" style="text-align: center;">Začnime spolupracovať</h2>
         <div class="glass-card contact-container">
             <div style="text-align: center; margin-bottom: 40px;">
-                <a href="mailto:zyfonix.yt@gmail.com?subject=Spolupráca - Dotazník&body=Ahoj, mám záujem o spoluprácu!"
+                <a href="mailto:zyfonix.collab@gmail.com?subject=Spolupráca - Dotazník&body=Ahoj, mám záujem o spoluprácu!"
                     class="btn-solid" style="padding: 15px 30px; font-size: 1.2rem; margin-bottom: 15px;">📋 Vyplniť
                     dotazník</a>
                 <p style="color: var(--text-muted); font-size: 1.1rem; margin-top: 15px;">Chceš spolupracovať? Napíš mi
-                    na <br><a href="mailto:zyfonix.yt@gmail.com"
-                        style="color: var(--primary); font-weight: bold; margin-top: 8px; display: inline-block;">zyfonix.yt@gmail.com</a>
+                    na <br><a href="mailto:zyfonix.collab@gmail.com"
+                        style="color: var(--primary); font-weight: bold; margin-top: 8px; display: inline-block;">zyfonix.collab@gmail.com</a>
                 </p>
             </div>
             <form id="contact-form" action="https://formspree.io/f/xwvaqpjr" method="POST" class="contact-form">
@@ -1448,6 +1478,31 @@ Viewed zyfonix%202.portoflio.css:1601-1902
  cursor:pointer;
  transition:color 0.2s;
  
+ ">✕</button>
+    </div>
+    <div id="video-modal" style="display:none;
+ position:fixed;
+ inset:0;
+ z-index:9999;
+ background:rgba(0, 0, 0, 0.95);
+ align-items:center;
+ justify-content:center;
+ padding:20px;
+ ">
+        <div id="video-modal-inner" style="position:relative; width:100%; max-width:900px; max-height:85vh; margin:0 auto;">
+            <div id="video-embed-container" style="width:100%; margin:0 auto; border-radius:10px; overflow:hidden; box-shadow:0 0 60px rgba(0,0,0,0.8);"></div>
+        </div>
+        <button onclick="closeVideoModal()" style="
+ position:fixed;
+ top:20px;
+ right:24px;
+ background:none;
+ border:none;
+ color:rgba(255, 255, 255, 0.7);
+ font-size:32px;
+ cursor:pointer;
+ transition:color 0.2s;
+ z-index:10000;
  ">✕</button>
     </div>
     <script>
@@ -1662,6 +1717,12 @@ Viewed zyfonix%202.portoflio.css:1601-1902
                     isShort: false
                 }
 
+                    ,
+                {
+                    type: 'instagram',
+                    url: 'https://www.instagram.com/reel/DapXZXAIgZl/?igsh=MTd3Y2hkbnE3ZWdhcw=='
+                }
+
                 ]
             }
 
@@ -1669,6 +1730,23 @@ Viewed zyfonix%202.portoflio.css:1601-1902
             jongles: {
                 name: 'JonglesGTA',
                 videos: []
+            }
+
+            ,
+            twiler: {
+                name: 'TwileR',
+                videos: [{
+                    id: '4Rz7DuQ-DWc',
+                    isShort: false
+                }
+
+                    ,
+                {
+                    id: 'CEyNgN4ZDEU',
+                    isShort: false
+                }
+
+                ]
             }
         }
 
@@ -1686,17 +1764,80 @@ Viewed zyfonix%202.portoflio.css:1601-1902
             }
         }
 
-        function getThumb(id) {
-            return id === '2RMiRz7Ii-s' ? `https://img.youtube.com/vi/${id}/hqdefault.jpg` : `https://img.youtube.com/vi/${id}/maxresdefault.jpg`;
+        // Reliable thumbnail chain: maxresdefault often silently returns a tiny grey
+        // placeholder instead of a real 404, so we try it first but fall back through
+        // sddefault -> hqdefault -> mqdefault, which practically always exist.
+        const THUMB_FALLBACK_CHAIN = ['maxresdefault', 'sddefault', 'hqdefault', 'mqdefault', 'default'];
+
+        function getThumb(id, stage) {
+            return `https://img.youtube.com/vi/${id}/${THUMB_FALLBACK_CHAIN[stage]}.jpg`;
         }
 
-        function getThumbFallback(id) {
-            return id === '2RMiRz7Ii-s' ? `https://img.youtube.com/vi/${id}/mqdefault.jpg` : `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
+        function handleThumbError(img, id) {
+            let stage = parseInt(img.dataset.stage || '0', 10) + 1;
+            if (stage >= THUMB_FALLBACK_CHAIN.length) return;
+            // maxresdefault "failures" often load a real (but tiny ~120x90) grey image
+            // instead of firing onerror, so also check natural size on load below.
+            img.dataset.stage = stage;
+            img.src = getThumb(id, stage);
+        }
+
+        function handleThumbLoad(img, id) {
+            // Catch the silent-placeholder case: a genuinely missing maxres/sddefault
+            // thumbnail loads as a small ~120x90 grey box instead of erroring.
+            if (img.naturalWidth <= 120 && img.dataset.stage !== String(THUMB_FALLBACK_CHAIN.length - 1)) {
+                handleThumbError(img, id);
+            }
         }
 
         function openVideo(videoId, isShort) {
-            window.open(isShort ? 'https://www.youtube.com/shorts/' + videoId : 'https://www.youtube.com/watch?v=' + videoId, '_blank');
+            const html = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0" title="YouTube video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display:block; width:100%; aspect-ratio:${isShort ? '9/16' : '16/9'}; max-height:85vh; margin:0 auto; background:#000;"></iframe>`;
+            openVideoModal(html, isShort ? '400px' : '900px');
         }
+
+        function openInstagramEmbed(url) {
+            const html = `<blockquote class="instagram-media" data-instgrm-permalink="${url}" data-instgrm-version="14" style="margin:0 auto; max-width:400px; width:100%; background:#fff; border-radius:10px;"></blockquote>`;
+            openVideoModal(html, '400px');
+            if (window.instgrm && window.instgrm.Embeds) {
+                window.instgrm.Embeds.process();
+            } else {
+                const existing = document.getElementById('ig-embed-script');
+                if (!existing) {
+                    const script = document.createElement('script');
+                    script.id = 'ig-embed-script';
+                    script.src = 'https://www.instagram.com/embed.js';
+                    script.async = true;
+                    document.body.appendChild(script);
+                } else if (window.instgrm) {
+                    window.instgrm.Embeds.process();
+                }
+            }
+        }
+
+        function openVideoModal(html, maxWidth) {
+            const modal = document.getElementById('video-modal');
+            const inner = document.getElementById('video-modal-inner');
+            const container = document.getElementById('video-embed-container');
+            inner.style.maxWidth = maxWidth;
+            container.innerHTML = html;
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeVideoModal() {
+            const modal = document.getElementById('video-modal');
+            modal.style.display = 'none';
+            document.getElementById('video-embed-container').innerHTML = '';
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('video-modal')?.addEventListener('click', function (e) {
+            if (e.target === this) closeVideoModal();
+        });
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') closeVideoModal();
+        });
 
         function renderVideos(clientKey) {
             const grid = document.getElementById('video-grid');
@@ -1712,17 +1853,20 @@ Viewed zyfonix%202.portoflio.css:1601-1902
             }
 
             setTimeout(() => {
-                grid.innerHTML = vids.map(v => {
+                grid.innerHTML = vids.map((v, idx) => {
+                    if (v.type === 'instagram') {
+                        return `<div class="video-card" onclick="openInstagramEmbed('${v.url}')"> <div class="video-thumb-wrap ig-thumb" style="aspect-ratio: 9/16;"> <svg class="ig-icon-large" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="20" height="20" rx="5" stroke="white" stroke-width="1.6"/><circle cx="12" cy="12" r="4.2" stroke="white" stroke-width="1.6"/><circle cx="17.2" cy="6.8" r="1.1" fill="white"/></svg> <div class="ig-badge">📷 Instagram</div> <div class="play-icon"></div> </div> <div class="video-title">Instagram Reel</div> </div>`;
+                    }
                     const isShort = v.isShort;
                     const ar = isShort ? '9/16' : '16/9';
-                    const thumb = isShort ? `https://img.youtube.com/vi/${v.id}/hqdefault.jpg` : getThumb(v.id);
-                    const fallback = isShort ? `https://img.youtube.com/vi/${v.id}/mqdefault.jpg` : getThumbFallback(v.id);
-                    return `<div class="video-card" onclick="openVideo('${v.id}', ${isShort})" > <div class="video-thumb-wrap" style="aspect-ratio: ${ar};" > <img src="${thumb}" onerror="this.src='${fallback}'" alt="Thumbnail" > <div class="play-icon" ></div> <div class="yt-badge" >▶ YouTube</div> </div> <div class="video-title" id="title-${v.id}" ></div> </div>`;
+                    const thumb = getThumb(v.id, 0);
+                    return `<div class="video-card" onclick="openVideo('${v.id}', ${isShort})" > <div class="video-thumb-wrap" style="aspect-ratio: ${ar};" > <img src="${thumb}" data-stage="0" onerror="handleThumbError(this, '${v.id}')" onload="handleThumbLoad(this, '${v.id}')" alt="Thumbnail" > <div class="play-icon" ></div> <div class="yt-badge" >▶ YouTube</div> </div> <div class="video-title" id="title-${v.id}" ></div> </div>`;
                 }).join('');
                 grid.style.transition = 'opacity 0.4s var(--smooth)';
                 grid.style.opacity = '1';
 
                 vids.forEach(async (v) => {
+                    if (v.type === 'instagram') return;
                     const title = await getTitle(v.id);
                     const titleEl = document.getElementById(`title-${v.id}`);
                     if (titleEl && title) titleEl.textContent = title;
