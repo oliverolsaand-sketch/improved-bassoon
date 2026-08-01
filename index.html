@@ -8,17 +8,19 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
         rel="stylesheet">
     <style>
         :root {
-            --bg-color: #080808;
+            --bg-color: #17171b;
             --primary: #aaaaaa;
             --text-main: rgba(255, 255, 255, 0.92);
             --text-secondary: rgba(255, 255, 255, 0.5);
             --text-muted: rgba(255, 255, 255, 0.3);
             --font-head: 'Orbitron', sans-serif;
             --font-body: 'Rajdhani', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --signal: #ff3b30;
             --smooth: cubic-bezier(0.23, 1, 0.32, 1);
             --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
             --ease-in: cubic-bezier(0.4, 0, 1, 1);
@@ -49,6 +51,31 @@
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(ellipse 900px 550px at 50% -8%, rgba(255, 255, 255, 0.065), transparent 62%),
+                radial-gradient(ellipse 700px 500px at 105% 15%, rgba(255, 255, 255, 0.04), transparent 60%),
+                radial-gradient(ellipse 700px 500px at -5% 85%, rgba(255, 255, 255, 0.035), transparent 60%),
+                linear-gradient(180deg, #141417 0%, #1c1c20 45%, #131316 100%);
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.05;
+            mix-blend-mode: overlay;
+            background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
         }
 
         h1,
@@ -82,21 +109,53 @@
 
         .section-label {
             font-size: 11px;
-            letter-spacing: 0.25em;
-            color: #ffffff;
+            letter-spacing: 0.2em;
+            color: var(--text-secondary);
             margin-bottom: 10px;
             text-transform: uppercase;
-            font-family: var(--font-head);
-            font-weight: 700;
-            opacity: 0.7;
+            font-family: var(--font-mono);
+            font-weight: 500;
+        }
+
+        .section-label::before {
+            content: '';
+            display: inline-block;
+            width: 6px;
+            height: 6px;
+            margin-right: 9px;
+            margin-bottom: 1px;
+            border-radius: 50%;
+            background: var(--signal);
+            box-shadow: 0 0 8px rgba(255, 59, 48, 0.7);
+            vertical-align: middle;
         }
 
         .section-title {
             font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 700;
             letter-spacing: -0.01em;
-            color: var(--text-main);
-            margin-bottom: 60px;
             line-height: 1.1;
+            margin-bottom: 40px;
+            background: linear-gradient(180deg, #ffffff 0%, #c7c7cc 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: var(--text-main);
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 46px;
+            height: 3px;
+            margin-top: 22px;
+            border-radius: 2px;
+            background: linear-gradient(90deg, var(--primary), transparent);
+        }
+
+        .section-title[style*="center"]::after {
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .neon-text {
@@ -108,8 +167,8 @@
         .stat-card,
         .review-card,
         .service-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.035);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 20px;
             backdrop-filter: blur(var(--blur, 20px));
             -webkit-backdrop-filter: blur(var(--blur, 20px));
@@ -120,13 +179,13 @@
         .stat-card:hover,
         .review-card:hover,
         .service-card:hover {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.065);
             transform: translateY(-8px) scale(1.015);
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.3), 0 0 40px rgba(180, 180, 180, 0.06);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.3), 0 0 40px rgba(180, 180, 180, 0.08);
         }
 
         .btn-solid {
-            background: #cccccc;
+            background: linear-gradient(180deg, #e6e6e6, #b8b8b8);
             color: #000;
             font-family: var(--font-head);
             font-weight: 700;
@@ -141,7 +200,7 @@
         }
 
         .btn-solid:hover {
-            background: #ffffff;
+            background: linear-gradient(180deg, #ffffff, #d4d4d4);
             color: #000;
             box-shadow: 0 12px 40px rgba(180, 180, 180, 0.4);
             transform: translateY(-3px) scale(1.03);
@@ -205,10 +264,10 @@
         }
 
         header.scrolled {
-            background: rgba(8, 8, 8, 0.85);
+            background: rgba(20, 20, 24, 0.82);
             backdrop-filter: blur(24px) saturate(200%);
             -webkit-backdrop-filter: blur(24px) saturate(200%);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
             transition: all 0.6s var(--smooth);
         }
 
@@ -525,13 +584,16 @@
         }
 
         .stat-label {
-            font-size: 15px;
+            font-size: 13px;
+            font-family: var(--font-mono);
+            letter-spacing: 0.02em;
             color: var(--text-secondary);
         }
 
         .tool-line {
             margin-top: 40px;
-            font-size: 0.9rem;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
             color: var(--text-muted);
         }
 
@@ -556,8 +618,8 @@
             align-items: center;
             gap: 8px;
             padding: 20px 24px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.035);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 20px;
             transition: all var(--transition-speed, 0.9s) var(--smooth);
             flex: 0 0 auto;
@@ -566,8 +628,8 @@
 
         .client-card:hover {
             transform: translateY(-8px) scale(1.015);
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.2), 0 0 40px rgba(180, 180, 180, 0.06);
-            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.2), 0 0 40px rgba(180, 180, 180, 0.08);
+            background: rgba(255, 255, 255, 0.065);
         }
 
         .client-card::before {
@@ -650,6 +712,7 @@
 
         .client-subs {
             font-size: 12px;
+            font-family: var(--font-mono);
             color: var(--text-secondary);
             text-align: center;
         }
@@ -949,13 +1012,31 @@
             font-size: 13px;
         }
 
+        #scroll-timeline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.05);
+            z-index: 1100;
+            pointer-events: none;
+        }
+
+        #scroll-timeline-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #888, #fff);
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+        }
+
         #mouse-glow {
             position: fixed;
             top: 0;
             left: 0;
-            width: 1000px;
-            height: 1000px;
-            background: radial-gradient(circle, rgba(200, 200, 200, 0.12) 0%, transparent 60%);
+            width: 480px;
+            height: 480px;
+            background: radial-gradient(circle, rgba(200, 200, 200, 0.08) 0%, transparent 65%);
             border-radius: 50%;
             transform: translate3d(-50%, -50%, 0);
             pointer-events: none;
@@ -1028,7 +1109,7 @@
                 top: 72px;
                 right: -100%;
                 flex-direction: column;
-                background: rgba(8, 8, 8, 0.98);
+                background: rgba(19, 19, 23, 0.98);
                 backdrop-filter: blur(15px);
                 width: 100%;
                 height: calc(100vh - 72px);
@@ -1205,7 +1286,7 @@
             .service-card {
                 backdrop-filter: none;
                 -webkit-backdrop-filter: none;
-                background: rgba(15, 15, 15, 0.95);
+                background: rgba(26, 26, 30, 0.95);
             }
 
             .client-card::before {
@@ -1216,10 +1297,11 @@
 </head>
 
 <body>
+    <div id="scroll-timeline"><div id="scroll-timeline-fill"></div></div>
     <div id="mouse-glow"></div>
     <header id="header">
         <nav class="nav-container">
-            <a href="#" class="logo">ZYFONIX</a>
+            <a href="#hero" class="logo">ZYFONIX</a>
             <ul class="nav-links">
                 <li><a href="#hero">Domov</a></li>
                 <li><a href="#portfolio">Portfólio</a></li>
@@ -1258,7 +1340,7 @@
                 </div>
             </div>
             <div class="about-text-col">
-                <p class="section-label" style="text-align: left;"> // o mne</p>
+                <p class="section-label" style="text-align: left;">O mne</p>
                 <h2 class="section-title" style="text-align: left; margin-bottom: 24px;">Kto som</h2>
                 <p>Video editor so zameraním na dynamické a pútavé videá. Špecializujem sa na spolupráce s influencermi.
                 </p>
@@ -1290,7 +1372,7 @@
         <div class="tool-line">Nástroj: <span>CapCut Pro</span></div>
     </section>
     <section id="portfolio" class="container">
-        <p class="section-label" style="text-align: center;"> // portfólio</p>
+        <p class="section-label" style="text-align: center;">Portfólio</p>
         <h2 class="section-title" style="text-align: center;">Moje práce</h2>
         <div class="client-row">
             <div class="client-card active" data-client="mgfitman">
@@ -1357,7 +1439,7 @@
         <div class="video-grid" id="video-grid"></div>
     </section>
     <section id="reviews" class="container">
-        <p class="section-label" style="text-align: center;"> // recenzie</p>
+        <p class="section-label" style="text-align: center;">Recenzie</p>
         <h2 class="section-title" style="text-align: center;">Čo hovoria klienti</h2>
         <div class="reviews-grid">
             <div class="glass-card review-card">
@@ -1388,7 +1470,7 @@
         </div>
     </section>
     <section id="services" class="container">
-        <p class="section-label" style="text-align: center;"> // služby</p>
+        <p class="section-label" style="text-align: center;">Služby</p>
         <h2 class="section-title" style="text-align: center;">Čo ponúkam</h2>
         <div class="services-grid">
             <div class="glass-card service-card">
@@ -1414,7 +1496,7 @@
         </div>
     </section>
     <section id="contact" class="container">
-        <p class="section-label" style="text-align: center;"> // kontakt</p>
+        <p class="section-label" style="text-align: center;">Kontakt</p>
         <h2 class="section-title" style="text-align: center;">Začnime spolupracovať</h2>
         <div class="glass-card contact-container">
             <div style="text-align: center; margin-bottom: 40px;">
@@ -1506,6 +1588,28 @@
  ">✕</button>
     </div>
     <script>
+        // Scroll-timeline: reframes scroll position as an editing-timeline playhead bar.
+        (function () {
+            const fill = document.getElementById('scroll-timeline-fill');
+            let queued = false;
+
+            function update() {
+                queued = false;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const pct = docHeight > 0 ? Math.min(Math.max(window.scrollY / docHeight, 0), 1) : 0;
+                if (fill) fill.style.width = (pct * 100) + '%';
+            }
+
+            window.addEventListener('scroll', () => {
+                if (!queued) {
+                    queued = true;
+                    requestAnimationFrame(update);
+                }
+            }, { passive: true });
+            window.addEventListener('resize', update, { passive: true });
+            update();
+        })();
+
         window.onload = () => {
             document.body.style.overflow = '';
 
@@ -1525,7 +1629,14 @@
         document.querySelectorAll('a[href^="#"]').forEach(link => {
             link.addEventListener('click', e => {
                 e.preventDefault();
-                const target = document.querySelector(link.getAttribute('href'));
+                if (typeof closeVideoModal === 'function') closeVideoModal();
+                const href = link.getAttribute('href');
+                let target = null;
+                try {
+                    target = href && href.length > 1 ? document.querySelector(href) : document.body;
+                } catch (err) {
+                    target = null;
+                }
                 if (!target) return;
                 const offset = 80;
                 const top = target.getBoundingClientRect().top + window.scrollY - offset;
@@ -1542,21 +1653,39 @@
 
         const revealEls = document.querySelectorAll('.reveal');
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('revealed');
-                    observer.unobserve(entry.target);
-                }
-            });
+        function revealAllNow() {
+            revealEls.forEach(el => el.classList.add('revealed'));
         }
 
-            , {
-            threshold: 0.05,
-            rootMargin: '0px 0px -40px 0px'
-        });
+        if ('IntersectionObserver' in window) {
+            try {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add('revealed');
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, {
+                    threshold: 0.05,
+                    rootMargin: '0px 0px -40px 0px'
+                });
 
-        revealEls.forEach(el => observer.observe(el));
+                revealEls.forEach(el => observer.observe(el));
+
+                // Safety net: content must never stay invisible just because a
+                // browser quirk or timing issue kept the observer from firing.
+                setTimeout(() => {
+                    revealEls.forEach(el => {
+                        if (!el.classList.contains('revealed')) el.classList.add('revealed');
+                    });
+                }, 2500);
+            } catch (err) {
+                revealAllNow();
+            }
+        } else {
+            revealAllNow();
+        }
 
         let ticking = false;
 
@@ -1826,8 +1955,17 @@
 
         function closeVideoModal() {
             const modal = document.getElementById('video-modal');
+            const container = document.getElementById('video-embed-container');
+            const iframe = container.querySelector('iframe');
+            if (iframe) {
+                // Fully unload the embed before removing it — just deleting the
+                // node can leave a mobile browser still "attached" to the
+                // youtube.com frame and intercepting the next tap as an
+                // app-open prompt.
+                iframe.src = 'about:blank';
+            }
             modal.style.display = 'none';
-            document.getElementById('video-embed-container').innerHTML = '';
+            container.innerHTML = '';
             document.body.style.overflow = '';
         }
 
@@ -1920,7 +2058,7 @@
         }
 
         const canvas = document.getElementById('particle-canvas');
-        const ctx = canvas.getContext('2d');
+        const ctx = canvas ? canvas.getContext('2d') : null;
         let width,
             height,
             particles = [],
@@ -2097,6 +2235,7 @@
         }
 
         function animateParticles() {
+            if (!ctx) return;
             ctx.clearRect(0, 0, width, height);
 
             for (let i = 0; i < particles.length; i++) {
@@ -2226,8 +2365,8 @@
                 });
             });
 
-            // Extreme Crazy 3D Tilt
-            const tiltElements = document.querySelectorAll('.glass-card, .client-card, .video-card, .review-card');
+            // Subtle 3D tilt — restrained so it reads as quality, not gimmick
+            const tiltElements = document.querySelectorAll('.glass-card, .client-card, .review-card');
 
             tiltElements.forEach(el => {
                 el.classList.add('tilt-element');
@@ -2244,11 +2383,10 @@
                         const centerX = rect.width / 2;
                         const centerY = rect.height / 2;
 
-                        // Increased extreme tilt for "crazy" feel
-                        const rotateX = ((y - centerY) / centerY) * -18;
-                        const rotateY = ((x - centerX) / centerX) * 18;
+                        const rotateX = ((y - centerY) / centerY) * -5;
+                        const rotateY = ((x - centerX) / centerX) * 5;
 
-                        el.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.03, 1.03, 1.03) translateY(-10px)`;
+                        el.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.015, 1.015, 1.015) translateY(-6px)`;
                         el.style.transition = 'transform 0.1s var(--ease-out, ease-out)';
                     });
                 });
