@@ -12,7 +12,7 @@
         rel="stylesheet">
     <style>
         :root {
-            --bg-color: #17171b;
+            --bg-color: #18181c;
             --primary: #aaaaaa;
             --text-main: rgba(255, 255, 255, 0.92);
             --text-secondary: rgba(255, 255, 255, 0.5);
@@ -61,10 +61,10 @@
             z-index: 0;
             pointer-events: none;
             background:
-                radial-gradient(ellipse 900px 550px at 50% -8%, rgba(255, 255, 255, 0.065), transparent 62%),
-                radial-gradient(ellipse 700px 500px at 105% 15%, rgba(255, 255, 255, 0.04), transparent 60%),
-                radial-gradient(ellipse 700px 500px at -5% 85%, rgba(255, 255, 255, 0.035), transparent 60%),
-                linear-gradient(180deg, #141417 0%, #1c1c20 45%, #131316 100%);
+                radial-gradient(ellipse 900px 550px at 50% -8%, rgba(255, 255, 255, 0.025), transparent 65%),
+                radial-gradient(ellipse 700px 500px at 105% 15%, rgba(255, 255, 255, 0.015), transparent 62%),
+                radial-gradient(ellipse 700px 500px at -5% 85%, rgba(255, 255, 255, 0.015), transparent 62%),
+                #18181c;
         }
 
         body::after {
@@ -73,8 +73,8 @@
             inset: 0;
             z-index: 0;
             pointer-events: none;
-            opacity: 0.05;
-            mix-blend-mode: overlay;
+            opacity: 0.045;
+            mix-blend-mode: soft-light;
             background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
         }
 
@@ -2072,7 +2072,15 @@
             document.documentElement.style.setProperty('--transition-speed', '0.5s');
             document.documentElement.style.setProperty('--blur', '0px');
             const heroTitle = document.querySelector('.hero-title');
-            if (heroTitle) heroTitle.style.setProperty('animation', 'none');
+            if (heroTitle) {
+                heroTitle.style.setProperty('animation', 'none');
+                // .hero-title's base CSS starts at opacity:0 and only the
+                // (now disabled) reveal animation ever brings it to 1 — without
+                // this it would stay invisible forever on mobile.
+                heroTitle.style.opacity = '1';
+                heroTitle.style.transform = 'none';
+                heroTitle.style.textShadow = '0 0 40px rgba(200, 200, 200, 0.4), 0 0 80px rgba(200, 200, 200, 0.15)';
+            }
         }
 
         else {
