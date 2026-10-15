@@ -1,0 +1,3154 @@
+<!DOCTYPE html>
+<html lang="sk">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZYFONIX | Profesionálny Video Editor pre Tvorcov & Influencerov</title>
+    <meta name="description" content="Zyfonix – Dynamický strih videí, color grading a vizuálne efekty pre YouTube, Shorts, Reels a TikTok. Spolupráce s top CZ/SK tvorcami.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Orbitron:wght@500;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-base: #070709;
+            --bg-elevated: #0d0d11;
+            --bg-card: rgba(255, 255, 255, 0.032);
+            --bg-card-hover: rgba(255, 255, 255, 0.06);
+            --bg-glass: rgba(14, 14, 18, 0.82);
+
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --border-mid: rgba(255, 255, 255, 0.15);
+            --border-bright: rgba(255, 255, 255, 0.34);
+
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --text-muted: #63636e;
+
+            --accent-white: #ffffff;
+            --accent-silver: #d4d4d8;
+            --accent-steel: #71717a;
+            --status-green: #22c55e;
+
+            --font-display: 'Orbitron', sans-serif;
+            --font-heading: 'Space Grotesk', sans-serif;
+            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+
+            --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+            --radius-xl: 24px;
+            --radius-lg: 18px;
+            --radius-md: 12px;
+            --radius-pill: 999px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        ::selection {
+            background: #ffffff;
+            color: #000000;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #070709;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #27272a;
+            border-radius: 99px;
+            border: 2px solid #070709;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #52525b;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 100px;
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            font-family: var(--font-body);
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            position: relative;
+        }
+
+        /* Architectural Monochrome Background Grid & Ambient Lighting */
+        .bg-architecture {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+            background:
+                radial-gradient(ellipse 900px 550px at 50% -8%, rgba(255, 255, 255, 0.065), transparent 68%),
+                radial-gradient(ellipse 700px 500px at 100% 20%, rgba(255, 255, 255, 0.025), transparent 65%),
+                linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 64px 64px, 64px 64px;
+        }
+
+        /* Top Scroll Progress Timeline */
+        #scroll-timeline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.04);
+            z-index: 2000;
+            pointer-events: none;
+        }
+
+        #scroll-timeline-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #52525b, #ffffff);
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.6);
+            transition: width 0.08s linear;
+        }
+
+        /* Ambient Cursor Glow */
+        #mouse-glow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 550px;
+            height: 550px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 65%);
+            border-radius: 50%;
+            transform: translate3d(-50%, -50%, 0);
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.8s var(--ease-out);
+            will-change: transform;
+        }
+
+        body:hover #mouse-glow {
+            opacity: 1;
+        }
+
+        @media (hover: none) {
+            #mouse-glow {
+                display: none !important;
+            }
+        }
+
+        /* Layout & Containers */
+        .container {
+            width: 100%;
+            max-width: 1220px;
+            margin: 0 auto;
+            padding: 0 24px;
+            position: relative;
+            z-index: 2;
+        }
+
+        section {
+            padding: clamp(76px, 10vw, 125px) 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* Section Header Styling */
+        .section-header {
+            text-align: center;
+            max-width: 680px;
+            margin: 0 auto 54px;
+        }
+
+        .section-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            border-radius: var(--radius-pill);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-subtle);
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: var(--accent-silver);
+            margin-bottom: 18px;
+        }
+
+        .section-eyebrow .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #ffffff;
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4.5vw, 3.2rem);
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            line-height: 1.12;
+            text-transform: uppercase;
+            background: linear-gradient(180deg, #ffffff 0%, #a1a1aa 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: #ffffff;
+            margin-bottom: 16px;
+        }
+
+        .section-desc {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            line-height: 1.65;
+        }
+
+        /* Floating Pill Header */
+        header {
+            position: fixed;
+            top: 18px;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 0 20px;
+            transition: top 0.4s var(--ease-out);
+        }
+
+        .nav-wrapper {
+            max-width: 1120px;
+            margin: 0 auto;
+            height: 64px;
+            padding: 0 12px 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(12, 12, 16, 0.82);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-pill);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+            transition: all 0.4s var(--ease-out);
+        }
+
+        header.scrolled .nav-wrapper {
+            background: rgba(8, 8, 11, 0.94);
+            border-color: rgba(255, 255, 255, 0.16);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 900;
+            letter-spacing: 0.18em;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: opacity 0.3s;
+        }
+
+        .logo-mark {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #ffffff 0%, #a1a1aa 100%);
+            color: #000000;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.95rem;
+            font-weight: 900;
+            letter-spacing: 0;
+            box-shadow: 0 0 16px rgba(255, 255, 255, 0.25);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-links a {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            padding: 8px 16px;
+            border-radius: var(--radius-pill);
+            transition: all 0.3s var(--ease-out);
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active-link {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .nav-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #ffffff;
+            color: #000000;
+            font-family: var(--font-heading);
+            font-size: 13px;
+            font-weight: 700;
+            padding: 10px 20px;
+            border-radius: var(--radius-pill);
+            transition: all 0.35s var(--ease-spring);
+            box-shadow: 0 4px 20px rgba(255, 255, 255, 0.18);
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-1px) scale(1.03);
+            box-shadow: 0 8px 28px rgba(255, 255, 255, 0.35);
+            background: #f4f4f5;
+        }
+
+        .hamburger {
+            display: none;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--border-subtle);
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            z-index: 1002;
+        }
+
+        .hamburger span {
+            width: 18px;
+            height: 2px;
+            background: #ffffff;
+            border-radius: 2px;
+            transition: 0.3s var(--ease-out);
+        }
+
+        /* Buttons */
+        .btn-primary {
+            position: relative;
+            overflow: hidden;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: linear-gradient(180deg, #ffffff 0%, #d4d4d8 100%);
+            color: #050507;
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 0.98rem;
+            letter-spacing: 0.02em;
+            padding: 16px 34px;
+            border-radius: var(--radius-pill);
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 12px 35px -8px rgba(255, 255, 255, 0.35), inset 0 1px 0 #ffffff;
+            transition: transform 0.45s var(--ease-spring), box-shadow 0.45s var(--ease-out), background 0.3s;
+        }
+
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -120%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.75), transparent);
+            transform: skewX(-20deg);
+            transition: left 0.65s var(--ease-out);
+        }
+
+        .btn-primary:hover::after {
+            left: 140%;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 18px 45px -6px rgba(255, 255, 255, 0.48);
+            background: #ffffff;
+        }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.04);
+            color: #ffffff;
+            font-family: var(--font-heading);
+            font-weight: 600;
+            font-size: 0.98rem;
+            letter-spacing: 0.02em;
+            padding: 16px 32px;
+            border-radius: var(--radius-pill);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            cursor: pointer;
+            transition: all 0.4s var(--ease-out);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.45);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Specular Glass Surface Card */
+        .surface-card {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(180deg, rgba(28, 28, 36, 0.9) 0%, rgba(16, 16, 22, 0.95) 100%);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-xl);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: transform 0.5s var(--ease-out), border-color 0.4s var(--ease-out), box-shadow 0.5s var(--ease-out);
+        }
+
+        .surface-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            pointer-events: none;
+            background: radial-gradient(
+                550px circle at var(--mouse-x, 50%) var(--mouse-y, -200%),
+                rgba(255, 255, 255, 0.08),
+                transparent 45%
+            );
+            opacity: 0;
+            transition: opacity 0.4s var(--ease-out);
+            z-index: 0;
+        }
+
+        .surface-card:hover::before {
+            opacity: 1;
+        }
+
+        .surface-card:hover {
+            border-color: rgba(255, 255, 255, 0.24);
+            transform: translateY(-5px);
+            box-shadow: 0 28px 65px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .surface-card > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ================= HERO SECTION ================= */
+        #hero {
+            min-height: 100vh;
+            padding: 150px 0 70px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #particle-canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.75;
+        }
+
+        .hero-inner {
+            text-align: center;
+            max-width: 920px;
+            margin: auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .availability-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 18px;
+            border-radius: var(--radius-pill);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: #e4e4e7;
+            margin-bottom: 28px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--status-green);
+            box-shadow: 0 0 12px var(--status-green);
+            position: relative;
+            display: inline-block;
+        }
+
+        .status-dot::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            border: 1.5px solid var(--status-green);
+            animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+        }
+
+        @keyframes ping {
+            75%, 100% {
+                transform: scale(2.2);
+                opacity: 0;
+            }
+        }
+
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(3.4rem, 9.5vw, 7.2rem);
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            line-height: 0.96;
+            text-transform: uppercase;
+            background: linear-gradient(180deg, #ffffff 0%, #e4e4e7 48%, #71717a 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: #ffffff;
+            filter: drop-shadow(0 15px 45px rgba(255, 255, 255, 0.12));
+            margin-bottom: 20px;
+        }
+
+        .hero-role {
+            font-family: var(--font-heading);
+            font-size: clamp(1.15rem, 2.5vw, 1.55rem);
+            font-weight: 600;
+            color: #ffffff;
+            letter-spacing: 0.01em;
+            margin-bottom: 16px;
+        }
+
+        .hero-role span {
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        .hero-lead {
+            font-size: clamp(1rem, 1.6vw, 1.16rem);
+            color: var(--text-secondary);
+            max-width: 640px;
+            margin: 0 auto 38px;
+            line-height: 1.7;
+        }
+
+        .hero-actions {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 48px;
+        }
+
+        .hero-highlights {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 28px;
+            flex-wrap: wrap;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .hero-highlights div {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .hero-highlights strong {
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        /* Client Marquee Trust Bar */
+        .trust-bar {
+            margin-top: 56px;
+            padding-top: 28px;
+            border-top: 1px solid var(--border-subtle);
+            position: relative;
+            z-index: 2;
+        }
+
+        .trust-label {
+            text-align: center;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .marquee-wrap {
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+        }
+
+        .marquee-track {
+            display: flex;
+            gap: 14px;
+            width: max-content;
+            animation: scrollMarquee 34s linear infinite;
+        }
+
+        .marquee-track:hover {
+            animation-play-state: paused;
+        }
+
+        .marquee-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 16px 8px 10px;
+            border-radius: var(--radius-pill);
+            background: rgba(255, 255, 255, 0.035);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            font-family: var(--font-heading);
+            font-size: 14px;
+            font-weight: 600;
+            color: #e4e4e7;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .marquee-pill:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.28);
+            color: #ffffff;
+        }
+
+        .marquee-pill img {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            background: #18181b;
+        }
+
+        .marquee-pill span {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--text-secondary);
+            padding: 2px 8px;
+            border-radius: 99px;
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        @keyframes scrollMarquee {
+            from {
+                transform: translateX(0);
+            }
+            to {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* ================= ABOUT & STATS BENTO GRID ================= */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 22px;
+        }
+
+        .bento-about {
+            grid-column: span 8;
+            padding: 42px;
+            display: grid;
+            grid-template-columns: 230px 1fr;
+            gap: 36px;
+            align-items: center;
+        }
+
+        .about-avatar-box {
+            position: relative;
+            width: 100%;
+            max-width: 230px;
+            margin: 0 auto;
+        }
+
+        .about-img {
+            width: 100%;
+            aspect-ratio: 4/5;
+            object-fit: cover;
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65);
+            display: block;
+            filter: grayscale(10%) contrast(1.04);
+            transition: all 0.5s var(--ease-out);
+        }
+
+        .about-img:hover {
+            filter: grayscale(0%) contrast(1.08);
+            transform: scale(1.02);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .about-fallback-avatar {
+            width: 100%;
+            aspect-ratio: 4/5;
+            border-radius: 18px;
+            background: linear-gradient(145deg, #18181b, #09090b);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-size: 4rem;
+            font-weight: 900;
+            color: #ffffff;
+        }
+
+        .about-content h3 {
+            font-family: var(--font-display);
+            font-size: clamp(1.5rem, 3vw, 2.1rem);
+            margin-bottom: 16px;
+            letter-spacing: -0.01em;
+            color: #ffffff;
+        }
+
+        .about-content p {
+            color: var(--text-secondary);
+            font-size: 1.02rem;
+            line-height: 1.75;
+            margin-bottom: 14px;
+        }
+
+        .about-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 22px;
+        }
+
+        .tag-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 14px;
+            border-radius: var(--radius-pill);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: #e4e4e7;
+        }
+
+        .tag-chip strong {
+            color: #ffffff;
+        }
+
+        .bento-focus {
+            grid-column: span 4;
+            padding: 40px 34px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background: radial-gradient(circle at top right, rgba(255, 255, 255, 0.09), rgba(20, 20, 26, 0.95) 70%);
+        }
+
+        .bento-focus-top .badge-mono {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: var(--text-secondary);
+            margin-bottom: 14px;
+            display: block;
+        }
+
+        .bento-focus h3 {
+            font-family: var(--font-heading);
+            font-size: 1.55rem;
+            line-height: 1.25;
+            margin-bottom: 14px;
+            color: #ffffff;
+        }
+
+        .bento-focus p {
+            color: var(--text-secondary);
+            font-size: 0.96rem;
+            line-height: 1.65;
+        }
+
+        .focus-points {
+            margin-top: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .focus-point {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.92rem;
+            color: #e4e4e7;
+            padding: 10px 14px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+        }
+
+        .bento-stat {
+            grid-column: span 4;
+            padding: 36px 32px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .stat-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .stat-label-mono {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--text-secondary);
+        }
+
+        .stat-icon-box {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+
+        .stat-number {
+            font-family: var(--font-display);
+            font-size: clamp(2.6rem, 5vw, 3.6rem);
+            font-weight: 800;
+            line-height: 1;
+            color: #ffffff;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+        }
+
+        .stat-sub {
+            font-size: 0.92rem;
+            color: var(--text-secondary);
+        }
+
+        .yt-sync-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 8px;
+            padding: 3px 10px;
+            border-radius: 99px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: var(--text-secondary);
+        }
+
+        .yt-sync-pill .sync-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--status-green);
+        }
+
+        /* ================= PORTFOLIO SECTION ================= */
+        .portfolio-controls {
+            margin-bottom: 38px;
+        }
+
+        .client-row {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .client-card {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 14px 10px 10px;
+            background: rgba(255, 255, 255, 0.035);
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            border-radius: var(--radius-pill);
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.35s var(--ease-out);
+        }
+
+        .client-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.28);
+            transform: translateY(-3px);
+        }
+
+        .client-card.active {
+            background: #ffffff;
+            color: #000000;
+            border-color: #ffffff;
+            box-shadow: 0 12px 32px rgba(255, 255, 255, 0.22);
+            transform: translateY(-3px);
+        }
+
+        .client-avatar-wrap {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            overflow: hidden;
+            flex-shrink: 0;
+            position: relative;
+            background: #18181b;
+        }
+
+        .client-avatar-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 1.5px solid rgba(255, 255, 255, 0.25);
+            display: block;
+        }
+
+        .client-card.active .client-avatar-wrap img {
+            border-color: #000000;
+        }
+
+        .letter-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #18181b;
+            border: 1.5px solid rgba(255, 255, 255, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-size: 16px;
+            font-weight: 800;
+            color: #ffffff;
+            flex-shrink: 0;
+        }
+
+        .client-card.active .letter-avatar {
+            background: #09090b;
+            color: #ffffff;
+            border-color: #09090b;
+        }
+
+        .client-meta {
+            text-align: left;
+            line-height: 1.25;
+        }
+
+        .client-name {
+            font-family: var(--font-heading);
+            font-size: 14px;
+            font-weight: 700;
+            color: inherit;
+        }
+
+        .client-subs {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .client-card.active .client-subs {
+            color: #3f3f46;
+            font-weight: 600;
+        }
+
+        .client-yt-mini {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #d4d4d8;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            margin-left: 2px;
+            transition: all 0.25s;
+        }
+
+        .client-card.active .client-yt-mini {
+            background: rgba(0, 0, 0, 0.08);
+            border-color: rgba(0, 0, 0, 0.18);
+            color: #000000;
+        }
+
+        .client-yt-mini:hover {
+            background: #ff0000 !important;
+            border-color: #ff0000 !important;
+            color: #ffffff !important;
+            transform: scale(1.1);
+        }
+
+        .active-client-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin: 30px 0 22px;
+            padding: 14px 22px;
+            border-radius: var(--radius-md);
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .active-client-title {
+            font-family: var(--font-heading);
+            font-size: 1rem;
+            font-weight: 600;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .active-client-title img {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: #18181b;
+        }
+
+        .active-client-right {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .active-client-count {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .yt-channel-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 14px;
+            border-radius: var(--radius-pill);
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid var(--border-mid);
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: #ffffff;
+            transition: all 0.25s;
+        }
+
+        .yt-channel-pill:hover {
+            background: #ffffff;
+            color: #000000;
+            border-color: #ffffff;
+        }
+
+        /* Video Grid */
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            min-height: 220px;
+            transition: opacity 0.25s var(--ease-out);
+        }
+
+        .video-card {
+            border-radius: 18px;
+            overflow: hidden;
+            background: rgba(22, 22, 29, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.45s var(--ease-out), border-color 0.4s var(--ease-out), box-shadow 0.45s var(--ease-out);
+        }
+
+        .video-card:hover {
+            transform: translateY(-7px);
+            border-color: rgba(255, 255, 255, 0.35);
+            box-shadow: 0 24px 55px rgba(0, 0, 0, 0.65);
+        }
+
+        .video-thumb-wrap {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            background: #0f0f13;
+        }
+
+        .video-thumb-wrap::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.6) 100%);
+            opacity: 0.6;
+            transition: opacity 0.4s;
+            pointer-events: none;
+        }
+
+        .video-card:hover .video-thumb-wrap::after {
+            opacity: 0.3;
+        }
+
+        .video-thumb-wrap img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.65s var(--ease-out);
+        }
+
+        .video-card:hover .video-thumb-wrap img {
+            transform: scale(1.06);
+        }
+
+        .video-thumb-wrap.ig-thumb {
+            background: radial-gradient(circle at 30% 107%, #52525b 0%, #27272a 45%, #09090b 90%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .play-btn-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.92);
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.95);
+            color: #000000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.55);
+            z-index: 2;
+            transition: all 0.4s var(--ease-spring);
+        }
+
+        .video-card:hover .play-btn-overlay {
+            transform: translate(-50%, -50%) scale(1.08);
+            background: #ffffff;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.6);
+        }
+
+        .play-btn-overlay svg {
+            width: 20px;
+            height: 20px;
+            margin-left: 3px;
+            fill: currentColor;
+        }
+
+        .platform-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            z-index: 2;
+            padding: 5px 11px;
+            border-radius: var(--radius-pill);
+            background: rgba(10, 10, 14, 0.84);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 600;
+            color: #ffffff;
+            letter-spacing: 0.04em;
+        }
+
+        .video-views-badge {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            z-index: 2;
+            padding: 4px 10px;
+            border-radius: var(--radius-pill);
+            background: rgba(10, 10, 14, 0.86);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: #e4e4e7;
+        }
+
+        .video-info {
+            padding: 16px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            background: rgba(14, 14, 19, 0.95);
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            flex-grow: 1;
+        }
+
+        .video-title {
+            font-family: var(--font-heading);
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #e4e4e7;
+            line-height: 1.4;
+        }
+
+        .video-card:hover .video-title {
+            color: #ffffff;
+        }
+
+        .coming-soon-box {
+            grid-column: 1 / -1;
+            padding: 60px 28px;
+            text-align: center;
+            border-radius: var(--radius-xl);
+            background: rgba(255, 255, 255, 0.025);
+            border: 1px dashed rgba(255, 255, 255, 0.16);
+        }
+
+        .coming-soon-box h4 {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            letter-spacing: 0.14em;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .coming-soon-box p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 16px;
+        }
+
+        /* ================= SERVICES SECTION ================= */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .service-card {
+            padding: 38px 36px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .service-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .service-icon-wrap {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            transition: transform 0.4s var(--ease-spring), background 0.3s;
+        }
+
+        .service-card:hover .service-icon-wrap {
+            transform: scale(1.1) rotate(-4deg);
+            background: rgba(255, 255, 255, 0.14);
+        }
+
+        .service-num {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .service-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 8px;
+        }
+
+        .service-card p {
+            color: var(--text-secondary);
+            font-size: 0.98rem;
+            line-height: 1.68;
+        }
+
+        .service-benefit {
+            padding-top: 16px;
+            border-top: 1px solid var(--border-subtle);
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--accent-silver);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* ================= REVIEWS SECTION ================= */
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 26px;
+        }
+
+        .review-card {
+            padding: 40px 36px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 28px;
+        }
+
+        .review-stars {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .stars-row {
+            color: #ffffff;
+            letter-spacing: 3px;
+            font-size: 15px;
+        }
+
+        .verified-pill {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--text-secondary);
+            padding: 4px 10px;
+            border-radius: var(--radius-pill);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .review-text {
+            font-size: 1.15rem;
+            line-height: 1.75;
+            color: #f4f4f5;
+            font-weight: 400;
+        }
+
+        .review-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-subtle);
+            flex-wrap: wrap;
+        }
+
+        .review-author-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .review-avatar {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 1.5px solid rgba(255, 255, 255, 0.25);
+            background: #18181b;
+        }
+
+        .review-author-name {
+            font-family: var(--font-heading);
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .review-author-subs {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        /* ================= FAQ SECTION ================= */
+        .faq-wrap {
+            max-width: 820px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .faq-item {
+            border-radius: var(--radius-lg);
+            background: rgba(22, 22, 29, 0.9);
+            border: 1px solid var(--border-subtle);
+            overflow: hidden;
+            transition: border-color 0.3s, background 0.3s;
+        }
+
+        .faq-item.open {
+            background: rgba(28, 28, 38, 0.95);
+            border-color: rgba(255, 255, 255, 0.24);
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 22px 26px;
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-family: var(--font-heading);
+            font-size: 1.06rem;
+            font-weight: 600;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            cursor: pointer;
+        }
+
+        .faq-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--border-subtle);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-mono);
+            font-size: 16px;
+            color: #ffffff;
+            flex-shrink: 0;
+            transition: transform 0.35s var(--ease-out), background 0.3s;
+        }
+
+        .faq-item.open .faq-icon {
+            transform: rotate(45deg);
+            background: #ffffff;
+            color: #000000;
+        }
+
+        .faq-answer {
+            display: none;
+            padding: 0 26px 24px;
+            color: var(--text-secondary);
+            font-size: 0.98rem;
+            line-height: 1.7;
+        }
+
+        .faq-item.open .faq-answer {
+            display: block;
+        }
+
+        /* ================= CONTACT SECTION ================= */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 5fr 7fr;
+            gap: 28px;
+            align-items: stretch;
+        }
+
+        .contact-info-card {
+            padding: 42px 36px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 32px;
+        }
+
+        .contact-info-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1.75rem;
+            line-height: 1.2;
+            margin-bottom: 14px;
+            color: #ffffff;
+        }
+
+        .contact-info-card p {
+            color: var(--text-secondary);
+            font-size: 0.98rem;
+            line-height: 1.7;
+        }
+
+        .contact-direct-box {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .email-pill-box {
+            padding: 16px 20px;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .email-pill-box .email-text {
+            font-family: var(--font-mono);
+            font-size: 0.92rem;
+            color: #ffffff;
+            word-break: break-all;
+        }
+
+        .copy-email-btn {
+            padding: 7px 14px;
+            border-radius: var(--radius-pill);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            color: #ffffff;
+            font-family: var(--font-mono);
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.25s;
+        }
+
+        .copy-email-btn:hover {
+            background: #ffffff;
+            color: #000000;
+        }
+
+        .contact-form-card {
+            padding: 42px 40px;
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .input-group label {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.035);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 14px;
+            padding: 15px 18px;
+            color: #ffffff;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s var(--ease-out);
+        }
+
+        .contact-form input::placeholder,
+        .contact-form textarea::placeholder {
+            color: #52525b;
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.45);
+            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.06);
+        }
+
+        .contact-form textarea {
+            resize: vertical;
+            min-height: 140px;
+        }
+
+        /* Footer */
+        footer {
+            padding: 42px 0;
+            border-top: 1px solid var(--border-subtle);
+            position: relative;
+            z-index: 2;
+        }
+
+        .footer-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        /* Video Modal */
+        #video-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(5, 5, 8, 0.92);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        #video-modal.open {
+            display: flex;
+        }
+
+        #video-modal-inner {
+            position: relative;
+            width: 100%;
+            max-width: 920px;
+            max-height: 85vh;
+            margin: 0 auto;
+        }
+
+        .modal-close-btn {
+            position: fixed;
+            top: 24px;
+            right: 28px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.25s;
+            z-index: 10000;
+        }
+
+        .modal-close-btn:hover {
+            background: #ffffff;
+            color: #000000;
+            transform: rotate(90deg);
+        }
+
+        /* ================= RESPONSIVE ================= */
+        @media (max-width: 992px) {
+            .bento-about {
+                grid-column: span 12;
+            }
+            .bento-focus {
+                grid-column: span 12;
+            }
+            .bento-stat {
+                grid-column: span 4;
+            }
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+            .video-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                top: 12px;
+                padding: 0 14px;
+            }
+            .nav-wrapper {
+                padding: 0 12px 0 18px;
+                height: 58px;
+            }
+            .nav-cta-desktop {
+                display: none;
+            }
+            .hamburger {
+                display: flex;
+            }
+            .nav-links {
+                position: fixed;
+                top: 78px;
+                left: 14px;
+                right: 14px;
+                background: rgba(14, 14, 19, 0.98);
+                border: 1px solid rgba(255, 255, 255, 0.14);
+                border-radius: 24px;
+                padding: 24px;
+                flex-direction: column;
+                gap: 10px;
+                display: none;
+                box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85);
+            }
+            .nav-links.active {
+                display: flex;
+            }
+            .nav-links li {
+                width: 100%;
+            }
+            .nav-links a {
+                display: flex;
+                justify-content: center;
+                width: 100%;
+                padding: 14px;
+                font-size: 15px;
+            }
+            .hamburger.active span:nth-child(1) {
+                transform: translateY(7px) rotate(45deg);
+            }
+            .hamburger.active span:nth-child(2) {
+                opacity: 0;
+            }
+            .hamburger.active span:nth-child(3) {
+                transform: translateY(-7px) rotate(-45deg);
+            }
+
+            #hero {
+                padding: 130px 0 50px;
+            }
+            .hero-actions {
+                flex-direction: column;
+                width: 100%;
+                max-width: 380px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .hero-actions .btn-primary,
+            .hero-actions .btn-secondary {
+                width: 100%;
+            }
+            .bento-about {
+                grid-template-columns: 1fr;
+                text-align: center;
+                padding: 30px 22px;
+            }
+            .about-tags {
+                justify-content: center;
+            }
+            .bento-stat {
+                grid-column: span 12;
+                padding: 28px 24px;
+            }
+            .services-grid,
+            .reviews-grid {
+                grid-template-columns: 1fr;
+            }
+            .client-row {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            .client-card {
+                border-radius: 16px;
+                padding: 10px 12px;
+                justify-content: space-between;
+            }
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+            .contact-info-card,
+            .contact-form-card {
+                padding: 28px 22px;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .client-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="scroll-timeline"><div id="scroll-timeline-fill"></div></div>
+    <div class="bg-architecture"></div>
+    <div id="mouse-glow"></div>
+
+    <!-- Navigation -->
+    <header id="header">
+        <nav class="nav-wrapper">
+            <a href="#hero" class="logo">
+                <span class="logo-mark">Z</span>
+                ZYFONIX
+            </a>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#hero" class="active-link">Domov</a></li>
+                <li><a href="#about">O mne</a></li>
+                <li><a href="#portfolio">Portfólio</a></li>
+                <li><a href="#services">Služby</a></li>
+                <li><a href="#reviews">Recenzie</a></li>
+                <li><a href="#faq">FAQ</a></li>
+                <li><a href="#contact">Kontakt</a></li>
+            </ul>
+            <a href="#contact" class="nav-cta nav-cta-desktop">Spolupráca ↗</a>
+            <div class="hamburger" id="hamburger" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero">
+        <canvas id="particle-canvas"></canvas>
+        <div class="container hero-inner">
+            <div class="availability-badge">
+                <span class="status-dot"></span>
+                <span>Aktuálne voľné miesto pre 1–2 nových klientov</span>
+            </div>
+            <h1 class="hero-title">ZYFONIX</h1>
+            <p class="hero-role">Profesionálny Video Editor <span>pre Tvorcov & Influencerov</span></p>
+            <p class="hero-lead">
+                Pretavím surový záznam do dynamického vizuálneho zážitku, ktorý udrží pozornosť diváka od prvej do poslednej sekundy, zvýši Watch Time a pomôže tvojmu kanálu rásť.
+            </p>
+            <div class="hero-actions">
+                <a href="#portfolio" class="btn-primary">Pozri moje práce ↓</a>
+                <a href="#contact" class="btn-secondary">Začať spoluprácu</a>
+            </div>
+            <div class="hero-highlights">
+                <div>✓ <strong id="hero-views-inline">562K+</strong> organických videní</div>
+                <div>✓ <strong>830K+</strong> dosah klientov</div>
+                <div>✓ <strong>YouTube, Shorts & Reels</strong></div>
+            </div>
+        </div>
+
+        <!-- Client Marquee Strip (All 9 Clients Hardcoded + Avatars) -->
+        <div class="container trust-bar">
+            <p class="trust-label">Dôverujú mi poprední CZ/SK tvorcovia</p>
+            <div class="marquee-wrap">
+                <div class="marquee-track">
+                    <a href="#portfolio" onclick="selectClientFromMarquee('mgfitman')" class="marquee-pill">
+                        <img src="https://zyfonix.eu/mgfitman.jpg" data-client-img="mgfitman" data-stage="0" alt="MGFitman" onerror="handleClientAvatarError(this, 'mgfitman')">
+                        MGFitman <span>450K+</span>
+                    </a>
+                    <a href="#portfolio" onclick="selectClientFromMarquee('mgfitman_gaming')" class="marquee-pill">
+                        <img src="https://zyfonix.eu/mgfitman_gaming.jpg" data-client-img="mgfitman_gaming" data-stage="0" alt="MGFitman Gaming" onerror="handleClientAvatarError(this, 'mgfitman_gaming')">
+                        MGFitman Gaming <span>250K+</span>
+                    </a>
+                    <a href="#portfolio" onclick="selectClientFromMarquee('skyf')" class="marquee-pill">
+                        <img src="https://zyfonix.eu/skyf.jpg" data-client-img="skyf" data-stage="0" alt="Skyf" onerror="handleClientAvatarError(this, 'skyf')">
+                        Skyf <span>130K+</span>
+                    </a>
+                    <a href="#portfolio" onclick="selectClientFromMarquee('twiler')" class="marquee-pill">
+                        <img src="https://zyfonix.eu/twiler.jpg" data-client-img="twiler" data-stage="0" alt="TwileR" onerror="handleClientAvatarError(this, 'twiler')">
+                        TwileR <span>YouTube</span>
+                    </a>
+                    <a href="#portfolio" onclick="selectClientFromMarquee('nardosk')" class="marquee-pill">
+                        <img src="https://zyfonix.eu/nardosk.jpg" data-client-img="nardosk" data-stage="0" alt="Nardosk" onerror="handleClientAvatarError(this, 'nardosk')">
+                        Nardosk <span>YouTube</span>
+                    </a>
+                    <a href="#portfolio" onclick="selectClientFromMarquee('capygod')" class="marquee-pill">
+                        <img src="https://zyfonix.eu/capygod.jpg" data-client-img="capygod" data-stage="0" alt="CapyGod" onerror="handleClientAvatarError(this, 'capygod')">
+                        CapyGod <span>YouTube</span>
+                    </a>
+                    <a href="#portfolio" onclick="selectClientFromMarquee('stepsirl')" class="marquee-pill">
+                        <img src="https://zyfonix.eu/stepsirl.jpg" data-client-img="stepsirl" data-stage="0" alt="Štěps IRL" onerror="handleClientAvatarError(this, 'stepsirl')">
+                        Štěps IRL <span>YouTube</span>
+                    </a>
+                    <a href="#portfolio" onclick="selectClientFromMarquee('simonyt')" class="marquee-pill">
+                        <img src="https://zyfonix.eu/simonyt.jpg" data-client-img="simonyt" data-stage="0" alt="ŠimonYT" onerror="handleClientAvatarError(this, 'simonyt')">
+                        ŠimonYT <span>1,7K+</span>
+                    </a>
+                    <a href="#portfolio" onclick="selectClientFromMarquee('jongles')" class="marquee-pill">
+                        <img src="https://zyfonix.eu/jongles.jpg" data-client-img="jongles" data-stage="0" alt="JonglesGTA" onerror="handleClientAvatarError(this, 'jongles')">
+                        JonglesGTA <span>YouTube</span>
+                    </a>
+                    <!-- Duplicate for seamless infinite loop -->
+                    <a href="#portfolio" onclick="selectClientFromMarquee('mgfitman')" class="marquee-pill">
+                        <img src="https://zyfonix.eu/mgfitman.jpg" data-client-img="mgfitman" data-stage="0" alt="MGFitman" onerror="handleClientAvatarError(this, 'mgfitman')">
+                        MGFitman <span>450K+</span>
+                    </a>
+                    <a href="#portfolio" onclick="selectClientFromMarquee('mgfitman_gaming')" class="marquee-pill">
+                        <img src="https://zyfonix.eu/mgfitman_gaming.jpg" data-client-img="mgfitman_gaming" data-stage="0" alt="MGFitman Gaming" onerror="handleClientAvatarError(this, 'mgfitman_gaming')">
+                        MGFitman Gaming <span>250K+</span>
+                    </a>
+                    <a href="#portfolio" onclick="selectClientFromMarquee('skyf')" class="marquee-pill">
+                        <img src="https://zyfonix.eu/skyf.jpg" data-client-img="skyf" data-stage="0" alt="Skyf" onerror="handleClientAvatarError(this, 'skyf')">
+                        Skyf <span>130K+</span>
+                    </a>
+                    <a href="#portfolio" onclick="selectClientFromMarquee('twiler')" class="marquee-pill">
+                        <img src="https://zyfonix.eu/twiler.jpg" data-client-img="twiler" data-stage="0" alt="TwileR" onerror="handleClientAvatarError(this, 'twiler')">
+                        TwileR <span>YouTube</span>
+                    </a>
+                    <a href="#portfolio" onclick="selectClientFromMarquee('nardosk')" class="marquee-pill">
+                        <img src="https://zyfonix.eu/nardosk.jpg" data-client-img="nardosk" data-stage="0" alt="Nardosk" onerror="handleClientAvatarError(this, 'nardosk')">
+                        Nardosk <span>YouTube</span>
+                    </a>
+                    <a href="#portfolio" onclick="selectClientFromMarquee('capygod')" class="marquee-pill">
+                        <img src="https://zyfonix.eu/capygod.jpg" data-client-img="capygod" data-stage="0" alt="CapyGod" onerror="handleClientAvatarError(this, 'capygod')">
+                        CapyGod <span>YouTube</span>
+                    </a>
+                    <a href="#portfolio" onclick="selectClientFromMarquee('stepsirl')" class="marquee-pill">
+                        <img src="https://zyfonix.eu/stepsirl.jpg" data-client-img="stepsirl" data-stage="0" alt="Štěps IRL" onerror="handleClientAvatarError(this, 'stepsirl')">
+                        Štěps IRL <span>YouTube</span>
+                    </a>
+                    <a href="#portfolio" onclick="selectClientFromMarquee('simonyt')" class="marquee-pill">
+                        <img src="https://zyfonix.eu/simonyt.jpg" data-client-img="simonyt" data-stage="0" alt="ŠimonYT" onerror="handleClientAvatarError(this, 'simonyt')">
+                        ŠimonYT <span>1,7K+</span>
+                    </a>
+                    <a href="#portfolio" onclick="selectClientFromMarquee('jongles')" class="marquee-pill">
+                        <img src="https://zyfonix.eu/jongles.jpg" data-client-img="jongles" data-stage="0" alt="JonglesGTA" onerror="handleClientAvatarError(this, 'jongles')">
+                        JonglesGTA <span>YouTube</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About & Stats Bento Section -->
+    <section id="about">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-eyebrow"><span class="dot"></span> O mne & Výsledky</div>
+                <h2 class="section-title">Kto som a prečo ja</h2>
+                <p class="section-desc">Spájam moderný strih, cit pre tempo a pochopenie sociálnych sietí, aby tvoje videá nielen dobre vyzerali, ale reálne zarábali pozornosť.</p>
+            </div>
+
+            <div class="bento-grid">
+                <!-- Main About Card -->
+                <div class="surface-card bento-about">
+                    <div class="about-avatar-box">
+                        <img src="https://zyfonix.eu/zyfonix.jpg" data-stage="0" alt="Zyfonix" class="about-img" onerror="handleOwnerImgError(this)">
+                        <div class="about-fallback-avatar" style="display:none;">Z</div>
+                    </div>
+                    <div class="about-content">
+                        <h3>ZYFONIX — Video Editor</h3>
+                        <p>Video editor so zameraním na dynamické a pútavé videá. Špecializujem sa na dlhodobé aj projektové spolupráce s influencermi a YouTube tvorcami.</p>
+                        <p>Mojím cieľom je pretaviť surový záznam do vizuálneho zážitku, ktorý zaujme a udrží pozornosť diváka od prvej do poslednej sekundy. Využívam moderné techniky strihu, color grading a vizuálne efekty na tvorbu profesionálneho obsahu.</p>
+                        <div class="about-tags">
+                            <span class="tag-chip">Nástroj: <strong>CapCut Pro</strong></span>
+                            <span class="tag-chip">Zameranie: <strong>Watch Time & Retencia</strong></span>
+                            <span class="tag-chip">Formáty: <strong>16:9 & 9:16</strong></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Value Prop / Why Me Card -->
+                <div class="surface-card bento-focus">
+                    <div class="bento-focus-top">
+                        <span class="badge-mono">// Prečo spolupracovať</span>
+                        <h3>Strih, ktorý drží diváka pri obrazovke</h3>
+                        <p>Dnešný divák sa rozhodne počas prvých 3 sekúnd. Každý strih, zvukový efekt a zoom prispôsobujem tomu, aby divák video nevypol.</p>
+                    </div>
+                    <div class="focus-points">
+                        <div class="focus-point">⚡ Silný hook v prvých sekundách</div>
+                        <div class="focus-point">🎯 Dynamický pacing bez hluchých miest</div>
+                        <div class="focus-point">🤝 Spoľahlivá komunikácia a dodanie</div>
+                    </div>
+                </div>
+
+                <!-- 3 Stat Cards -->
+                <div class="surface-card bento-stat">
+                    <div class="stat-top">
+                        <span class="stat-label-mono">Skúsenosti</span>
+                        <div class="stat-icon-box">🎬</div>
+                    </div>
+                    <div>
+                        <div class="stat-number" data-target="1" data-duration="2000" data-suffix="+">1+</div>
+                        <div class="stat-sub">rok aktívnych skúseností</div>
+                    </div>
+                </div>
+
+                <div class="surface-card bento-stat">
+                    <div class="stat-top">
+                        <span class="stat-label-mono">Portfólio</span>
+                        <div class="stat-icon-box">🎯</div>
+                    </div>
+                    <div>
+                        <div class="stat-number" data-target="22" data-duration="2000" data-suffix="+">22+</div>
+                        <div class="stat-sub">dokončených projektov</div>
+                    </div>
+                </div>
+
+                <div class="surface-card bento-stat">
+                    <div class="stat-top">
+                        <span class="stat-label-mono">Dosah prác</span>
+                        <div class="stat-icon-box">👁</div>
+                    </div>
+                    <div>
+                        <div class="stat-number" id="views-counter" data-target="562" data-duration="2200" data-suffix="K+">562K+</div>
+                        <div class="stat-sub">celkových videní na videách</div>
+                        <div class="yt-sync-pill">
+                            <span class="sync-dot"></span>
+                            <span id="yt-sync-label">Denne aktualizované podľa YouTube</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section (All 9 Clients Hardcoded + Connected to YouTube Channels) -->
+    <section id="portfolio">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-eyebrow"><span class="dot"></span> Portfólio</div>
+                <h2 class="section-title">Moje práce & Klienti</h2>
+                <p class="section-desc">Vyber si tvorcu nižšie a pozri si ukážky videí, na ktorých som pracoval.</p>
+            </div>
+
+            <div class="portfolio-controls">
+                <div class="client-row" id="client-row">
+                    <!-- 1. MGFitman -->
+                    <div class="client-card active" data-client="mgfitman">
+                        <div class="client-avatar-wrap">
+                            <img src="https://zyfonix.eu/mgfitman.jpg" data-client-img="mgfitman" data-stage="0" alt="MGFitman" onerror="handleClientAvatarError(this, 'mgfitman')">
+                            <div class="letter-avatar" style="display:none">M</div>
+                        </div>
+                        <div class="client-meta">
+                            <div class="client-name">MGFitman</div>
+                            <div class="client-subs">450K+ odberateľov</div>
+                        </div>
+                        <a href="https://www.youtube.com/@MGFitman" target="_blank" rel="noopener noreferrer" class="client-yt-mini" title="Otvoriť YouTube kanál MGFitman" onclick="event.stopPropagation()">↗</a>
+                    </div>
+
+                    <!-- 2. MGFitman Gaming -->
+                    <div class="client-card" data-client="mgfitman_gaming">
+                        <div class="client-avatar-wrap">
+                            <img src="https://zyfonix.eu/mgfitman_gaming.jpg" data-client-img="mgfitman_gaming" data-stage="0" alt="MGFitman Gaming" onerror="handleClientAvatarError(this, 'mgfitman_gaming')">
+                            <div class="letter-avatar" style="display:none">M</div>
+                        </div>
+                        <div class="client-meta">
+                            <div class="client-name">MGFitman Gaming</div>
+                            <div class="client-subs">250K+ odberateľov</div>
+                        </div>
+                        <a href="https://www.youtube.com/@MGFitmanGaming" target="_blank" rel="noopener noreferrer" class="client-yt-mini" title="Otvoriť YouTube kanál MGFitman Gaming" onclick="event.stopPropagation()">↗</a>
+                    </div>
+
+                    <!-- 3. Skyf -->
+                    <div class="client-card" data-client="skyf">
+                        <div class="client-avatar-wrap">
+                            <img src="https://zyfonix.eu/skyf.jpg" data-client-img="skyf" data-stage="0" alt="Skyf" onerror="handleClientAvatarError(this, 'skyf')">
+                            <div class="letter-avatar" style="display:none">S</div>
+                        </div>
+                        <div class="client-meta">
+                            <div class="client-name">Skyf</div>
+                            <div class="client-subs">130K+ odberateľov</div>
+                        </div>
+                        <a href="https://www.youtube.com/@SkyfCS" target="_blank" rel="noopener noreferrer" class="client-yt-mini" title="Otvoriť YouTube kanál Skyf" onclick="event.stopPropagation()">↗</a>
+                    </div>
+
+                    <!-- 4. TwileR -->
+                    <div class="client-card" data-client="twiler">
+                        <div class="client-avatar-wrap">
+                            <img src="https://zyfonix.eu/twiler.jpg" data-client-img="twiler" data-stage="0" alt="TwileR" onerror="handleClientAvatarError(this, 'twiler')">
+                            <div class="letter-avatar" style="display:none">T</div>
+                        </div>
+                        <div class="client-meta">
+                            <div class="client-name">TwileR</div>
+                            <div class="client-subs">YouTube</div>
+                        </div>
+                        <a href="https://www.youtube.com/channel/UCvT293-aCO9EbKaPJM3tA7Q" target="_blank" rel="noopener noreferrer" class="client-yt-mini" title="Otvoriť YouTube kanál TwileR" onclick="event.stopPropagation()">↗</a>
+                    </div>
+
+                    <!-- 5. Nardosk -->
+                    <div class="client-card" data-client="nardosk">
+                        <div class="client-avatar-wrap">
+                            <img src="https://zyfonix.eu/nardosk.jpg" data-client-img="nardosk" data-stage="0" alt="Nardosk" onerror="handleClientAvatarError(this, 'nardosk')">
+                            <div class="letter-avatar" style="display:none">N</div>
+                        </div>
+                        <div class="client-meta">
+                            <div class="client-name">Nardosk</div>
+                            <div class="client-subs">YouTube</div>
+                        </div>
+                        <a href="https://www.youtube.com/@Nardosk1" target="_blank" rel="noopener noreferrer" class="client-yt-mini" title="Otvoriť YouTube kanál Nardosk" onclick="event.stopPropagation()">↗</a>
+                    </div>
+
+                    <!-- 6. ŠimonYT -->
+                    <div class="client-card" data-client="simonyt">
+                        <div class="client-avatar-wrap">
+                            <img src="https://zyfonix.eu/simonyt.jpg" data-client-img="simonyt" data-stage="0" alt="ŠimonYT" onerror="handleClientAvatarError(this, 'simonyt')">
+                            <div class="letter-avatar" style="display:none">Š</div>
+                        </div>
+                        <div class="client-meta">
+                            <div class="client-name">ŠimonYT</div>
+                            <div class="client-subs">1,7K+ odberateľov</div>
+                        </div>
+                        <a href="https://www.youtube.com/@%C5%A1imonvencl" target="_blank" rel="noopener noreferrer" class="client-yt-mini" title="Otvoriť YouTube kanál ŠimonYT" onclick="event.stopPropagation()">↗</a>
+                    </div>
+
+                    <!-- 7. CapyGod -->
+                    <div class="client-card" data-client="capygod">
+                        <div class="client-avatar-wrap">
+                            <img src="https://zyfonix.eu/capygod.jpg" data-client-img="capygod" data-stage="0" alt="CapyGod" onerror="handleClientAvatarError(this, 'capygod')">
+                            <div class="letter-avatar" style="display:none">C</div>
+                        </div>
+                        <div class="client-meta">
+                            <div class="client-name">CapyGod</div>
+                            <div class="client-subs">YouTube</div>
+                        </div>
+                        <a href="https://www.youtube.com/@CapyGod_YT" target="_blank" rel="noopener noreferrer" class="client-yt-mini" title="Otvoriť YouTube kanál CapyGod" onclick="event.stopPropagation()">↗</a>
+                    </div>
+
+                    <!-- 8. Štěps IRL -->
+                    <div class="client-card" data-client="stepsirl">
+                        <div class="client-avatar-wrap">
+                            <img src="https://zyfonix.eu/stepsirl.jpg" data-client-img="stepsirl" data-stage="0" alt="Štěps IRL" onerror="handleClientAvatarError(this, 'stepsirl')">
+                            <div class="letter-avatar" style="display:none">Š</div>
+                        </div>
+                        <div class="client-meta">
+                            <div class="client-name">Štěps IRL</div>
+                            <div class="client-subs">YouTube</div>
+                        </div>
+                        <a href="https://www.youtube.com/channel/UCuQwP1mNT0Nl0LBu4tSXhgw" target="_blank" rel="noopener noreferrer" class="client-yt-mini" title="Otvoriť YouTube kanál Štěps IRL" onclick="event.stopPropagation()">↗</a>
+                    </div>
+
+                    <!-- 9. JonglesGTA -->
+                    <div class="client-card" data-client="jongles">
+                        <div class="client-avatar-wrap">
+                            <img src="https://zyfonix.eu/jongles.jpg" data-client-img="jongles" data-stage="0" alt="JonglesGTA" onerror="handleClientAvatarError(this, 'jongles')">
+                            <div class="letter-avatar" style="display:none">J</div>
+                        </div>
+                        <div class="client-meta">
+                            <div class="client-name">JonglesGTA</div>
+                            <div class="client-subs">YouTube</div>
+                        </div>
+                        <a href="https://www.youtube.com/@JonglesGTA" target="_blank" rel="noopener noreferrer" class="client-yt-mini" title="Otvoriť YouTube kanál JonglesGTA" onclick="event.stopPropagation()">↗</a>
+                    </div>
+                </div>
+
+                <div class="active-client-bar">
+                    <div class="active-client-title">
+                        <img id="active-client-avatar" src="https://zyfonix.eu/mgfitman.jpg" data-client-img="mgfitman" data-stage="0" alt="MGFitman" onerror="handleClientAvatarError(this, 'mgfitman')">
+                        <span>Vybraný klient: <strong id="active-client-label">MGFitman</strong></span>
+                    </div>
+                    <div class="active-client-right">
+                        <div class="active-client-count" id="active-client-count">1 projekt</div>
+                        <a id="active-client-yt-btn" href="https://www.youtube.com/@MGFitman" target="_blank" rel="noopener noreferrer" class="yt-channel-pill">
+                            ▶ YouTube kanál ↗
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pre-populated Video Grid so it is immediately visible -->
+            <div class="video-grid" id="video-grid">
+                <div class="video-card" onclick="openVideo('bgl_agnHtB8', true)">
+                    <div class="video-thumb-wrap" style="aspect-ratio: 9/16;">
+                        <img src="https://img.youtube.com/vi/bgl_agnHtB8/maxresdefault.jpg" data-stage="0" onerror="handleThumbError(this, 'bgl_agnHtB8')" onload="handleThumbLoad(this, 'bgl_agnHtB8')" alt="Náhľad videa">
+                        <span class="platform-badge">YT SHORT</span>
+                        <div class="play-btn-overlay"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                    </div>
+                    <div class="video-info">
+                        <div class="video-title" id="title-bgl_agnHtB8">Kdo má lepší BICÁK?</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-eyebrow"><span class="dot"></span> Služby</div>
+                <h2 class="section-title">Čo ponúkam</h2>
+                <p class="section-desc">Kompletná postprodukcia prispôsobená tvojmu štýlu a požiadavkám algoritmov.</p>
+            </div>
+
+            <div class="services-grid">
+                <div class="surface-card service-card">
+                    <div class="service-head">
+                        <div class="service-icon-wrap">✂️</div>
+                        <span class="service-num">01</span>
+                    </div>
+                    <div>
+                        <h3>Strih videí</h3>
+                        <p>Dynamický strih pre Instagram, YouTube a TikTok za účelom maximálneho udržania pozornosti diváka od úvodného hooku až po záver.</p>
+                    </div>
+                    <div class="service-benefit">→ Vyšší Watch Time & miera dopozerania</div>
+                </div>
+
+                <div class="surface-card service-card">
+                    <div class="service-head">
+                        <div class="service-icon-wrap">🎨</div>
+                        <span class="service-num">02</span>
+                    </div>
+                    <div>
+                        <h3>Color Grading</h3>
+                        <p>Profesionálna farebná korekcia pre filmový alebo špecifický vizuálny look vašich videí, ktorý odlíši vašu tvorbu od konkurencie.</p>
+                    </div>
+                    <div class="service-benefit">→ Prémiový a konzistentný vizuál</div>
+                </div>
+
+                <div class="surface-card service-card">
+                    <div class="service-head">
+                        <div class="service-icon-wrap">✨</div>
+                        <span class="service-num">03</span>
+                    </div>
+                    <div>
+                        <h3>Transitions & Efekty</h3>
+                        <p>Plynulé prechody, dynamické titulky, sound design a vizuálne efekty, ktoré dodajú videu profesionálny spád a energiu.</p>
+                    </div>
+                    <div class="service-benefit">→ Žiadne nudné či hluché pasáže</div>
+                </div>
+
+                <div class="surface-card service-card">
+                    <div class="service-head">
+                        <div class="service-icon-wrap">🤝</div>
+                        <span class="service-num">04</span>
+                    </div>
+                    <div>
+                        <h3>Spolupráca s influencermi</h3>
+                        <p>Dlhodobá spolupráca na obsahu s pochopením potrieb algoritmov a publika. Ušetrím ti desiatky hodín pri zachovaní tvojho podpisu.</p>
+                    </div>
+                    <div class="service-benefit">→ Viac času na točenie a nové nápady</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section id="reviews">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-eyebrow"><span class="dot"></span> Recenzie</div>
+                <h2 class="section-title">Čo hovoria klienti</h2>
+                <p class="section-desc">Reálne skúsenosti tvorcov, s ktorými spolupracujem.</p>
+            </div>
+
+            <div class="reviews-grid">
+                <div class="surface-card review-card">
+                    <div class="review-stars">
+                        <span class="stars-row">★★★★★</span>
+                        <span class="verified-pill">✓ Overená spolupráca</span>
+                    </div>
+                    <p class="review-text">„Kvalitný edit, som veľmi spokojný. Odporúčam každému, kto hľadá spoľahlivého editora!“</p>
+                    <div class="review-footer">
+                        <div class="review-author-left">
+                            <img src="https://zyfonix.eu/skyf.jpg" data-client-img="skyf" data-stage="0" alt="Skyf" class="review-avatar" onerror="handleClientAvatarError(this, 'skyf')">
+                            <div class="letter-avatar" style="display:none; width:54px; height:54px;">S</div>
+                            <div>
+                                <div class="review-author-name">Skyf</div>
+                                <div class="review-author-subs">130K+ odberateľov • YouTube</div>
+                            </div>
+                        </div>
+                        <a href="https://www.youtube.com/@SkyfCS" target="_blank" rel="noopener noreferrer" class="yt-channel-pill">YouTube ↗</a>
+                    </div>
+                </div>
+
+                <div class="surface-card review-card">
+                    <div class="review-stars">
+                        <span class="stars-row">★★★★★</span>
+                        <span class="verified-pill">✓ Overená spolupráca</span>
+                    </div>
+                    <p class="review-text">„Skvele edituje a kvalita videí je úžasná, prácu splní rýchle — doporučujem všetkým 🙏“</p>
+                    <div class="review-footer">
+                        <div class="review-author-left">
+                            <img src="https://zyfonix.eu/simonyt.jpg" data-client-img="simonyt" data-stage="0" alt="ŠimonYT" class="review-avatar" onerror="handleClientAvatarError(this, 'simonyt')">
+                            <div class="letter-avatar" style="display:none; width:54px; height:54px;">Š</div>
+                            <div>
+                                <div class="review-author-name">ŠimonYT</div>
+                                <div class="review-author-subs">1,7K+ odberateľov • YouTube & IG</div>
+                            </div>
+                        </div>
+                        <a href="https://www.youtube.com/@%C5%A1imonvencl" target="_blank" rel="noopener noreferrer" class="yt-channel-pill">YouTube ↗</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-eyebrow"><span class="dot"></span> FAQ</div>
+                <h2 class="section-title">Často kladené otázky</h2>
+                <p class="section-desc">Všetko, čo potrebuješ vedieť pred tým, než začneme spolupracovať.</p>
+            </div>
+
+            <div class="faq-wrap">
+                <div class="faq-item open">
+                    <button class="faq-question" type="button">
+                        <span>Ako rýchlo dodáš hotové video?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        Krátke formáty (Shorts, Reels, TikTok) dodávam spravidla do 24 – 48 hodín. Pri dlhších YouTube videách závisí čas od dĺžky surového záznamu a náročnosti efektov, zvyčajne do pár dní podľa dohody.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" type="button">
+                        <span>Aké typy videí upravuješ?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        Špecializujem sa na IRL videá, challenge, vlogy, gaming a dynamické krátke formáty (YouTube Shorts, Instagram Reels, TikTok). Štýl strihu vždy prispôsobím tvojmu publiku.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" type="button">
+                        <span>Čo ak budem chcieť vo videu niečo upraviť?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        Spokojnosť s výsledkom je priorita. Po odovzdaní náhľadu zapracujem tvoj feedback a prípadné úpravy doladíme tak, aby bolo video pred publikovaním na 100 % podľa tvojich predstáv.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" type="button">
+                        <span>Ako prebieha posielanie záznamov a komunikácia?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        Komunikujeme rýchlo a priamo (napr. cez Discord, Instagram alebo e-mail). Surové záznamy mi jednoducho pošleš cez Google Drive, WeTransfer alebo Mega a o zvyšok sa postarám.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-eyebrow"><span class="dot"></span> Kontakt</div>
+                <h2 class="section-title">Začnime spolupracovať</h2>
+                <p class="section-desc">Chceš posunúť svoje videá na vyšší level? Vyplň krátky dotazník alebo mi napíš priamo správu.</p>
+            </div>
+
+            <div class="contact-grid">
+                <div class="surface-card contact-info-card">
+                    <div>
+                        <div class="availability-badge" style="margin-bottom: 20px;">
+                            <span class="status-dot"></span>
+                            <span>Odpovedám zvyčajne do 24 hodín</span>
+                        </div>
+                        <h3>Poďme vytvoriť niečo veľké</h3>
+                        <p>Či už hľadáš editora na jednorazový projekt alebo dlhodobého partnera pre svoj kanál, napíš mi predstavy o svojom projekte a dohodneme detaily.</p>
+                    </div>
+
+                    <div class="contact-direct-box">
+                        <a href="mailto:zyfonix.collab@gmail.com?subject=Spolupráca - Dotazník&body=Ahoj, mám záujem o spoluprácu!" class="btn-primary" style="width: 100%;">
+                            📋 Vyplniť dotazník
+                        </a>
+
+                        <div class="email-pill-box">
+                            <a href="mailto:zyfonix.collab@gmail.com" class="email-text">zyfonix.collab@gmail.com</a>
+                            <button type="button" class="copy-email-btn" id="copy-email-btn">Kopírovať</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="surface-card contact-form-card">
+                    <form id="contact-form" action="https://formspree.io/f/xwvaqpjr" method="POST" class="contact-form">
+                        <input type="hidden" name="_subject" value="Nová správa z Zyfonix webu">
+                        <div class="input-group">
+                            <label for="name">Meno / Kanál</label>
+                            <input type="text" id="name" name="name" required placeholder="Tvoje meno alebo názov kanála">
+                        </div>
+                        <div class="input-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required placeholder="tvoj@email.sk">
+                        </div>
+                        <div class="input-group">
+                            <label for="message">Správa</label>
+                            <textarea id="message" name="message" required placeholder="Popíš svoj projekt, typ videí alebo predstavu o spolupráci..."></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary" style="width: 100%; margin-top: 6px;">Odoslať správu →</button>
+                    </form>
+                    <div id="form-success" style="display:none; text-align:center; color:#ffffff; font-size:1.1rem; padding:40px 20px;">
+                        ✓ Správa bola úspešne odoslaná! Ozvem sa ti čoskoro.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-inner">
+            <div class="logo" style="font-size: 1rem;">
+                <span class="logo-mark" style="width:22px; height:22px; font-size:0.75rem;">Z</span>
+                ZYFONIX
+            </div>
+            <p>&copy; 2026 Zyfonix. Všetky práva vyhradené.</p>
+        </div>
+    </footer>
+
+    <!-- Video Modal -->
+    <div id="video-modal">
+        <div id="video-modal-inner">
+            <div id="video-embed-container" style="width:100%; margin:0 auto; border-radius:16px; overflow:hidden; box-shadow:0 25px 80px rgba(0,0,0,0.9); border: 1px solid rgba(255,255,255,0.15);"></div>
+        </div>
+        <button class="modal-close-btn" onclick="closeVideoModal()" aria-label="Zavrieť">✕</button>
+    </div>
+
+    <script>
+        // Safe localStorage wrapper (never crashes in mobile/file previewers)
+        function safeGetStorage(key) {
+            try {
+                return window.localStorage ? window.localStorage.getItem(key) : null;
+            } catch (e) {
+                return null;
+            }
+        }
+        function safeSetStorage(key, val) {
+            try {
+                if (window.localStorage) window.localStorage.setItem(key, val);
+            } catch (e) {}
+        }
+
+        // Clients, YouTube Channels & Videos Database
+        const clients = {
+            mgfitman: {
+                name: 'MGFitman',
+                channelUrl: 'https://www.youtube.com/@MGFitman',
+                ytHandle: 'MGFitman',
+                localImg: 'mgfitman.jpg',
+                videos: [
+                    { id: 'bgl_agnHtB8', isShort: true, fallbackTitle: 'Kdo má lepší BICÁK?' }
+                ]
+            },
+            mgfitman_gaming: {
+                name: 'MGFitman Gaming',
+                channelUrl: 'https://www.youtube.com/@MGFitmanGaming',
+                ytHandle: 'MGFitmanGaming',
+                localImg: 'mgfitman_gaming.jpg',
+                videos: [
+                    { id: 'DIyRSMtodbk', isShort: true, fallbackTitle: 'MGFitman Gaming Short' }
+                ]
+            },
+            skyf: {
+                name: 'Skyf',
+                channelUrl: 'https://www.youtube.com/@SkyfCS',
+                ytHandle: 'SkyfCS',
+                localImg: 'skyf.jpg',
+                videos: [
+                    { id: '2RMiRz7Ii-s', isShort: false },
+                    { id: 'KQqVkijipns', isShort: false },
+                    { id: 'jQnfpU_3w2k', isShort: false },
+                    { id: 'qNmnKavN0T0', isShort: false }
+                ]
+            },
+            twiler: {
+                name: 'TwileR',
+                channelUrl: 'https://www.youtube.com/channel/UCvT293-aCO9EbKaPJM3tA7Q',
+                ytHandle: 'TwiIeR',
+                localImg: 'twiler.jpg',
+                videos: [
+                    { id: '4Rz7DuQ-DWc', isShort: false },
+                    { id: 'CEyNgN4ZDEU', isShort: false },
+                    { id: 'hHfmAIHzPbs', isShort: false, fallbackTitle: '24 Hodín PRANKUJEM Svoju FRAJERKU!' },
+                    { id: 'M9prHH3ZEso', isShort: false, fallbackTitle: 'Postavil som si VYSNÍVANÝ Herný SETUP!' },
+                    { id: 'P53UfE47dpA', isShort: false, fallbackTitle: 'Zasekol Som sa vo VÝŤAHU! (VR)' },
+                    { id: 'wGilG9XkTBw', isShort: false, fallbackTitle: '24 Hodín IGNORUJEM Moju FRAJERKU!' },
+                    { id: 'XtgxWVS1Ybc', isShort: false, fallbackTitle: 'Ak sa Zasmeješ, Musíš Zjesť PÁLIVY CHIPS!' },
+                    { id: 'A9ZJPDW3mnU', isShort: false, fallbackTitle: '24 Hodín Trénujem MMA ale Večer mám ZÁPAS!' }
+                ]
+            },
+            nardosk: {
+                name: 'Nardosk',
+                channelUrl: 'https://www.youtube.com/@Nardosk1',
+                ytHandle: 'Nardosk1',
+                localImg: 'nardosk.jpg',
+                videos: [
+                    { id: '0Ai8a5fje-o', isShort: false, fallbackTitle: 'MAL SOM 24 HODÍN NA ŽIVOT... TAKTO SOM ICH VYUŽIL' }
+                ]
+            },
+            simonyt: {
+                name: 'ŠimonYT',
+                channelUrl: 'https://www.youtube.com/@%C5%A1imonvencl',
+                ytHandle: 'šimonvencl',
+                localImg: 'simonyt.jpg',
+                videos: [
+                    { id: 'b0Y9Nb0_3VI', isShort: false },
+                    {
+                        type: 'instagram',
+                        url: 'https://www.instagram.com/reel/DapXZXAIgZl/?igsh=MTd3Y2hkbnE3ZWdhcw=='
+                    }
+                ]
+            },
+            capygod: {
+                name: 'CapyGod',
+                channelUrl: 'https://www.youtube.com/@CapyGod_YT',
+                ytHandle: 'CapyGod_YT',
+                localImg: 'capygod.jpg',
+                videos: []
+            },
+            stepsirl: {
+                name: 'Štěps IRL',
+                channelUrl: 'https://www.youtube.com/channel/UCuQwP1mNT0Nl0LBu4tSXhgw',
+                ytHandle: 'ŠtěpsIRL',
+                localImg: 'stepsirl.jpg',
+                videos: []
+            },
+            jongles: {
+                name: 'JonglesGTA',
+                channelUrl: 'https://www.youtube.com/@JonglesGTA',
+                ytHandle: 'JonglesGTA',
+                localImg: 'jongles.jpg',
+                videos: []
+            }
+        };
+
+        // Multi-stage Avatar Fallback: zyfonix.eu -> local file -> YouTube unavatar -> Letter Avatar (+ background yt3 resolver)
+        function handleOwnerImgError(img) {
+            const stage = parseInt(img.dataset.stage || '0', 10);
+            if (stage === 0) {
+                img.dataset.stage = '1';
+                img.src = './zyfonix.jpg';
+            } else {
+                img.style.display = 'none';
+                if (img.nextElementSibling) img.nextElementSibling.style.display = 'flex';
+            }
+        }
+
+        function handleClientAvatarError(img, clientKey) {
+            const c = clients[clientKey];
+            if (!c) return;
+            const stage = parseInt(img.dataset.stage || '0', 10);
+            if (stage === 0) {
+                img.dataset.stage = '1';
+                img.src = `./${c.localImg}`;
+            } else if (stage === 1) {
+                img.dataset.stage = '2';
+                img.src = `https://unavatar.io/youtube/${encodeURIComponent(c.ytHandle)}?fallback=false`;
+            } else {
+                img.style.display = 'none';
+                if (img.nextElementSibling && img.nextElementSibling.classList.contains('letter-avatar')) {
+                    img.nextElementSibling.style.display = 'flex';
+                }
+            }
+        }
+
+        async function resolveYouTubeChannelAvatars() {
+            let cached = {};
+            try {
+                cached = JSON.parse(safeGetStorage('zyfonix_yt_pfps_v3') || '{}');
+            } catch (e) {
+                cached = {};
+            }
+
+            Object.keys(clients).forEach(async (key) => {
+                const c = clients[key];
+                if (cached[key]) {
+                    applyChannelAvatar(key, cached[key]);
+                    return;
+                }
+                try {
+                    const res = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(c.channelUrl)}`);
+                    if (!res.ok) return;
+                    const html = await res.text();
+                    const match = html.match(/property="og:image"\s+content="([^"]+)"/i) || html.match(/https:\/\/yt3\.googleusercontent\.com\/[^"'\s<>]+/i);
+                    const url = match ? (match[1] || match[0]) : null;
+                    if (url && url.startsWith('http')) {
+                        cached[key] = url;
+                        safeSetStorage('zyfonix_yt_pfps_v3', JSON.stringify(cached));
+                        applyChannelAvatar(key, url);
+                    }
+                } catch (e) {}
+            });
+        }
+
+        function applyChannelAvatar(clientKey, avatarUrl) {
+            document.querySelectorAll(`img[data-client-img="${clientKey}"]`).forEach(img => {
+                if (img.style.display === 'none' || img.naturalWidth === 0) {
+                    img.style.display = 'block';
+                    if (img.nextElementSibling && img.nextElementSibling.classList.contains('letter-avatar')) {
+                        img.nextElementSibling.style.display = 'none';
+                    }
+                    img.src = avatarUrl;
+                }
+            });
+        }
+
+        // Scroll Progress Bar
+        (function () {
+            const fill = document.getElementById('scroll-timeline-fill');
+            let queued = false;
+            function update() {
+                queued = false;
+                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                const pct = docHeight > 0 ? Math.min(Math.max(window.scrollY / docHeight, 0), 1) : 0;
+                if (fill) fill.style.width = (pct * 100) + '%';
+            }
+            window.addEventListener('scroll', () => {
+                if (!queued) {
+                    queued = true;
+                    requestAnimationFrame(update);
+                }
+            }, { passive: true });
+            window.addEventListener('resize', update, { passive: true });
+            update();
+        })();
+
+        // Smooth Anchor Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', e => {
+                const href = link.getAttribute('href');
+                if (!href || href === '#') return;
+                const target = document.querySelector(href);
+                if (!target) return;
+                e.preventDefault();
+                if (typeof closeVideoModal === 'function') closeVideoModal();
+                const offset = 90;
+                const top = target.getBoundingClientRect().top + window.scrollY - offset;
+                window.scrollTo({ top, behavior: 'smooth' });
+            });
+        });
+
+        // Header Scroll State & Active Link Highlight
+        const header = document.getElementById('header');
+        const navAnchors = document.querySelectorAll('.nav-links a[href^="#"]');
+        const trackedSections = Array.from(navAnchors).map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+        let scrollTick = false;
+
+        window.addEventListener('scroll', () => {
+            if (!scrollTick) {
+                requestAnimationFrame(() => {
+                    if (window.scrollY > 40) header.classList.add('scrolled');
+                    else header.classList.remove('scrolled');
+
+                    let currentId = 'hero';
+                    const pos = window.scrollY + 240;
+                    trackedSections.forEach(sec => {
+                        if (sec.offsetTop <= pos) currentId = sec.id;
+                    });
+                    navAnchors.forEach(a => {
+                        a.classList.toggle('active-link', a.getAttribute('href') === `#${currentId}`);
+                    });
+                    scrollTick = false;
+                });
+                scrollTick = true;
+            }
+        }, { passive: true });
+
+        // Mobile Menu
+        const hamburger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('nav-links');
+        if (hamburger && navLinks) {
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('active');
+                navLinks.classList.toggle('active');
+            });
+            navLinks.querySelectorAll('a').forEach(item => {
+                item.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('active');
+                });
+            });
+        }
+
+        // Video Titles, Thumbnails & Rendering
+        const titleCache = {};
+        let liveVideoViews = {};
+
+        async function getTitle(id, fallback = '') {
+            if (titleCache[id]) return titleCache[id];
+            try {
+                const r = await fetch('https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v=' + id + '&format=json');
+                const d = await r.json();
+                if (d && d.title) {
+                    titleCache[id] = d.title;
+                    return d.title;
+                }
+                return fallback;
+            } catch {
+                return fallback;
+            }
+        }
+
+        const THUMB_FALLBACK_CHAIN = ['maxresdefault', 'sddefault', 'hqdefault', 'mqdefault', 'default'];
+        function getThumb(id, stage) {
+            return `https://img.youtube.com/vi/${id}/${THUMB_FALLBACK_CHAIN[stage]}.jpg`;
+        }
+        function handleThumbError(img, id) {
+            let stage = parseInt(img.dataset.stage || '0', 10) + 1;
+            if (stage >= THUMB_FALLBACK_CHAIN.length) return;
+            img.dataset.stage = stage;
+            img.src = getThumb(id, stage);
+        }
+        function handleThumbLoad(img, id) {
+            if (img.naturalWidth <= 120 && img.dataset.stage !== String(THUMB_FALLBACK_CHAIN.length - 1)) {
+                handleThumbError(img, id);
+            }
+        }
+
+        function formatViewsCompact(n) {
+            if (!n || isNaN(n)) return '';
+            if (n >= 1000000) return (n / 1000000).toFixed(1).replace('.0', '') + 'M videní';
+            if (n >= 1000) return Math.round(n / 1000) + 'K videní';
+            return n + ' videní';
+        }
+
+        let renderTimeout = null;
+        function renderVideos(clientKey) {
+            const grid = document.getElementById('video-grid');
+            const labelEl = document.getElementById('active-client-label');
+            const countEl = document.getElementById('active-client-count');
+            const avatarEl = document.getElementById('active-client-avatar');
+            const ytBtnEl = document.getElementById('active-client-yt-btn');
+
+            const clientData = clients[clientKey];
+            if (!clientData || !grid) return;
+            const vids = clientData.videos;
+
+            if (labelEl) labelEl.textContent = clientData.name;
+            if (ytBtnEl) ytBtnEl.href = clientData.channelUrl;
+            if (avatarEl) {
+                avatarEl.style.display = 'inline-block';
+                avatarEl.dataset.stage = '0';
+                avatarEl.dataset.clientImg = clientKey;
+                avatarEl.src = `https://zyfonix.eu/${clientData.localImg}`;
+                avatarEl.onerror = function () { handleClientAvatarError(this, clientKey); };
+            }
+
+            if (countEl) {
+                if (vids.length === 0) countEl.textContent = 'Pripravujeme';
+                else if (vids.length === 1) countEl.textContent = '1 projekt';
+                else if (vids.length >= 2 && vids.length <= 4) countEl.textContent = `${vids.length} projekty`;
+                else countEl.textContent = `${vids.length} projektov`;
+            }
+
+            if (renderTimeout) clearTimeout(renderTimeout);
+            grid.style.opacity = '0';
+
+            renderTimeout = setTimeout(() => {
+                if (vids.length === 0) {
+                    grid.innerHTML = `
+                        <div class="coming-soon-box">
+                            <h4>COMING SOON</h4>
+                            <p>Nové videá v spolupráci s tvorcom <strong>${clientData.name}</strong> budú pridané už čoskoro.</p>
+                            <a href="${clientData.channelUrl}" target="_blank" rel="noopener noreferrer" class="yt-channel-pill">
+                                ▶ Pozrieť YouTube kanál ${clientData.name} ↗
+                            </a>
+                        </div>`;
+                    grid.style.opacity = '1';
+                    return;
+                }
+
+                const playSvg = `<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>`;
+                grid.innerHTML = vids.map((v) => {
+                    if (v.type === 'instagram') {
+                        return `<div class="video-card" onclick="openInstagramEmbed('${v.url}')">
+                            <div class="video-thumb-wrap ig-thumb" style="aspect-ratio: 9/16;">
+                                <span class="platform-badge">IG REEL</span>
+                                <div class="play-btn-overlay">${playSvg}</div>
+                            </div>
+                            <div class="video-info">
+                                <div class="video-title">Instagram Reel – ${clientData.name}</div>
+                            </div>
+                        </div>`;
+                    }
+                    const isShort = v.isShort;
+                    const ar = isShort ? '9/16' : '16/9';
+                    const badge = isShort ? 'YT SHORT' : 'YOUTUBE';
+                    const thumb = getThumb(v.id, 0);
+                    const initialTitle = v.fallbackTitle || 'Načítavam názov...';
+                    const vBadge = liveVideoViews[v.id]
+                        ? `<span class="video-views-badge" id="vbadge-${v.id}">👁 ${formatViewsCompact(liveVideoViews[v.id])}</span>`
+                        : `<span class="video-views-badge" id="vbadge-${v.id}" style="display:none"></span>`;
+
+                    return `<div class="video-card" onclick="openVideo('${v.id}', ${isShort})">
+                        <div class="video-thumb-wrap" style="aspect-ratio: ${ar};">
+                            <img src="${thumb}" data-stage="0" onerror="handleThumbError(this, '${v.id}')" onload="handleThumbLoad(this, '${v.id}')" alt="Náhľad videa" loading="lazy">
+                            <span class="platform-badge">${badge}</span>
+                            ${vBadge}
+                            <div class="play-btn-overlay">${playSvg}</div>
+                        </div>
+                        <div class="video-info">
+                            <div class="video-title" id="title-${v.id}">${initialTitle}</div>
+                        </div>
+                    </div>`;
+                }).join('');
+
+                grid.style.opacity = '1';
+
+                vids.forEach(async (v) => {
+                    if (v.type === 'instagram') return;
+                    const title = await getTitle(v.id, v.fallbackTitle || 'YouTube Video');
+                    const titleEl = document.getElementById(`title-${v.id}`);
+                    if (titleEl && title) titleEl.textContent = title;
+                });
+            }, 120);
+        }
+
+        function selectClientFromMarquee(clientKey) {
+            const card = document.querySelector(`.client-card[data-client="${clientKey}"]`);
+            if (card) {
+                document.querySelectorAll('.client-card').forEach(c => c.classList.remove('active'));
+                card.classList.add('active');
+                renderVideos(clientKey);
+            }
+        }
+
+        // Daily Automatic YouTube Views Sync
+        const MIN_GUARANTEED_VIEWS = 562000;
+        const NON_YT_VIEWS_OFFSET = 85000;
+        const VIEWS_CACHE_KEY = 'zyfonix_daily_yt_views_v4';
+        const ONE_DAY_MS = 24 * 60 * 60 * 1000;
+
+        function updateViewsUI(totalViews, byVideo) {
+            liveVideoViews = byVideo || {};
+            const finalTotal = Math.max(totalViews, MIN_GUARANTEED_VIEWS);
+            const inK = Math.round(finalTotal / 1000);
+            const formatted = inK >= 1000
+                ? (finalTotal / 1000000).toFixed(2).replace('.00', '') + 'M+'
+                : inK + 'K+';
+
+            const counterEl = document.getElementById('views-counter');
+            const heroInlineEl = document.getElementById('hero-views-inline');
+            if (counterEl) counterEl.textContent = formatted;
+            if (heroInlineEl) heroInlineEl.textContent = formatted;
+
+            Object.keys(liveVideoViews).forEach(vid => {
+                const b = document.getElementById(`vbadge-${vid}`);
+                if (b && liveVideoViews[vid]) {
+                    b.textContent = '👁 ' + formatViewsCompact(liveVideoViews[vid]);
+                    b.style.display = 'inline-block';
+                }
+            });
+        }
+
+        async function syncDailyYouTubeViews() {
+            try {
+                const raw = safeGetStorage(VIEWS_CACHE_KEY);
+                if (raw) {
+                    const cached = JSON.parse(raw);
+                    if (cached && cached.totalViews && cached.timestamp) {
+                        updateViewsUI(cached.totalViews, cached.byVideo || {});
+                        if (Date.now() - cached.timestamp < ONE_DAY_MS) return;
+                    }
+                }
+            } catch (e) {}
+
+            const allVideoIds = [];
+            Object.values(clients).forEach(c => {
+                c.videos.forEach(v => {
+                    if (v.id && !allVideoIds.includes(v.id)) allVideoIds.push(v.id);
+                });
+            });
+
+            const byVideo = {};
+            let sumViews = 0;
+            let fetched = 0;
+
+            await Promise.allSettled(allVideoIds.map(async (vid) => {
+                try {
+                    const res = await fetch(`https://returnyoutubedislikeapi.com/votes?videoId=${vid}`);
+                    if (!res.ok) return;
+                    const data = await res.json();
+                    if (data && typeof data.viewCount === 'number' && data.viewCount > 0) {
+                        byVideo[vid] = data.viewCount;
+                        sumViews += data.viewCount;
+                        fetched++;
+                    }
+                } catch (e) {}
+            }));
+
+            if (fetched > 0) {
+                const computedTotal = Math.max(sumViews + NON_YT_VIEWS_OFFSET, MIN_GUARANTEED_VIEWS);
+                updateViewsUI(computedTotal, byVideo);
+                safeSetStorage(VIEWS_CACHE_KEY, JSON.stringify({
+                    timestamp: Date.now(),
+                    totalViews: computedTotal,
+                    byVideo: byVideo
+                }));
+            }
+        }
+
+        // Video Modal
+        function openVideo(videoId, isShort) {
+            const html = `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0" title="YouTube video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="display:block; width:100%; aspect-ratio:${isShort ? '9/16' : '16/9'}; max-height:85vh; margin:0 auto; background:#000;"></iframe>`;
+            openVideoModal(html, isShort ? '400px' : '920px');
+        }
+
+        function openInstagramEmbed(url) {
+            const html = `<blockquote class="instagram-media" data-instgrm-permalink="${url}" data-instgrm-version="14" style="margin:0 auto; max-width:400px; width:100%; background:#fff; border-radius:12px;"></blockquote>`;
+            openVideoModal(html, '400px');
+            if (window.instgrm && window.instgrm.Embeds) {
+                window.instgrm.Embeds.process();
+            } else if (!document.getElementById('ig-embed-script')) {
+                const script = document.createElement('script');
+                script.id = 'ig-embed-script';
+                script.src = 'https://www.instagram.com/embed.js';
+                script.async = true;
+                document.body.appendChild(script);
+            }
+        }
+
+        function openVideoModal(html, maxWidth) {
+            const modal = document.getElementById('video-modal');
+            const inner = document.getElementById('video-modal-inner');
+            const container = document.getElementById('video-embed-container');
+            inner.style.maxWidth = maxWidth;
+            container.innerHTML = html;
+            modal.classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeVideoModal() {
+            const modal = document.getElementById('video-modal');
+            if (!modal || !modal.classList.contains('open')) return;
+            document.getElementById('video-embed-container').innerHTML = '';
+            modal.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('video-modal')?.addEventListener('click', function (e) {
+            if (e.target === this) closeVideoModal();
+        });
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') closeVideoModal();
+        });
+
+        // Init Events
+        document.addEventListener('DOMContentLoaded', () => {
+            renderVideos('mgfitman');
+            syncDailyYouTubeViews();
+            resolveYouTubeChannelAvatars();
+
+            document.querySelectorAll('.client-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    if (card.classList.contains('active')) return;
+                    document.querySelectorAll('.client-card').forEach(c => c.classList.remove('active'));
+                    card.classList.add('active');
+                    renderVideos(card.dataset.client);
+                });
+            });
+
+            // FAQ Accordion
+            document.querySelectorAll('.faq-question').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const item = btn.parentElement;
+                    const isOpen = item.classList.contains('open');
+                    document.querySelectorAll('.faq-item').forEach(other => other.classList.remove('open'));
+                    if (!isOpen) item.classList.add('open');
+                });
+            });
+
+            // Copy Email Button
+            const copyBtn = document.getElementById('copy-email-btn');
+            if (copyBtn) {
+                copyBtn.addEventListener('click', () => {
+                    navigator.clipboard?.writeText('zyfonix.collab@gmail.com');
+                    const orig = copyBtn.textContent;
+                    copyBtn.textContent = '✓ Skopírované';
+                    setTimeout(() => copyBtn.textContent = orig, 2000);
+                });
+            }
+        });
+
+        // Contact Form Submission
+        const form = document.getElementById('contact-form');
+        if (form) {
+            form.addEventListener('submit', async e => {
+                e.preventDefault();
+                const btn = form.querySelector('button[type="submit"]');
+                const origText = btn.textContent;
+                btn.textContent = 'Odosielam...';
+                btn.disabled = true;
+
+                try {
+                    const res = await fetch(form.action, {
+                        method: 'POST',
+                        body: new FormData(form),
+                        headers: { 'Accept': 'application/json' }
+                    });
+                    if (res.ok) {
+                        form.style.display = 'none';
+                        document.getElementById('form-success').style.display = 'block';
+                    } else {
+                        btn.textContent = 'Chyba, skús znova';
+                        btn.disabled = false;
+                    }
+                } catch {
+                    btn.textContent = origText;
+                    btn.disabled = false;
+                }
+            });
+        }
+
+        // Monochrome Subtle Particle Field
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas ? canvas.getContext('2d') : null;
+        let width, height, particles = [], animId;
+        const isMobile = window.innerWidth < 768;
+        const PARTICLE_COUNT = isMobile ? 18 : 42;
+
+        function resizeCanvas() {
+            if (!canvas) return;
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas, { passive: true });
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.r = Math.random() * 1.6 + 0.5;
+                this.vx = (Math.random() - 0.5) * 0.22;
+                this.vy = (Math.random() - 0.5) * 0.22;
+                this.alpha = Math.random() * 0.45 + 0.1;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += p_vy(this);
+                if (this.x < 0) this.x = width;
+                if (this.x > width) this.x = 0;
+                if (this.y < 0) this.y = height;
+                if (this.y > height) this.y = 0;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.alpha})`;
+                ctx.fill();
+            }
+        }
+        function p_vy(p) { return p.vy; }
+
+        for (let i = 0; i < PARTICLE_COUNT; i++) particles.push(new Particle());
+
+        function animateCanvas() {
+            if (!ctx) return;
+            ctx.clearRect(0, 0, width, height);
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 130) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(255, 255, 255, ${0.05 * (1 - dist / 130)})`;
+                        ctx.lineWidth = 1;
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            animId = requestAnimationFrame(animateCanvas);
+        }
+        animateCanvas();
+
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) cancelAnimationFrame(animId);
+            else animId = requestAnimationFrame(animateCanvas);
+        });
+
+        // Interactive Card Spotlight & Mouse Glow (Desktop)
+        if (window.matchMedia('(hover: hover)').matches) {
+            const mouseGlow = document.getElementById('mouse-glow');
+            let mx = window.innerWidth / 2, my = window.innerHeight / 2;
+            let gx = mx, gy = my;
+
+            document.addEventListener('mousemove', e => {
+                mx = e.clientX;
+                my = e.clientY;
+            }, { passive: true });
+
+            function updateGlow() {
+                gx += (mx - gx) * 0.08;
+                gy += (my - gy) * 0.08;
+                if (mouseGlow) {
+                    mouseGlow.style.transform = `translate3d(calc(-50% + ${gx}px), calc(-50% + ${gy}px), 0)`;
+                }
+                requestAnimationFrame(updateGlow);
+            }
+            updateGlow();
+
+            document.querySelectorAll('.surface-card').forEach(card => {
+                card.addEventListener('mousemove', e => {
+                    const rect = card.getBoundingClientRect();
+                    card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+                    card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+                });
+            });
+        }
+    </script>
+</body>
+
+</html>
