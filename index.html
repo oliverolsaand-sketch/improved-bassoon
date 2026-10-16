@@ -1068,6 +1068,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            flex-wrap: wrap;
         }
 
         .active-client-title img {
@@ -1077,6 +1078,16 @@
             object-fit: cover;
             border: 1px solid rgba(255, 255, 255, 0.3);
             background: #18181b;
+        }
+
+        .active-client-subs-badge {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            color: var(--accent-silver);
+            padding: 3px 10px;
+            border-radius: 99px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .active-client-right {
@@ -1881,14 +1892,14 @@
             </div>
             <div class="hero-highlights">
                 <div>✓ <strong id="hero-views-inline">562K+</strong> organických videní</div>
-                <div>✓ <strong id="hero-reach-inline">1.2M+</strong> dosah klientov</div>
+                <div>✓ <strong id="hero-reach-inline">1.3M+</strong> dosah klientov</div>
                 <div>✓ <strong>YouTube, Shorts & Reels</strong></div>
             </div>
         </div>
 
-        <!-- Client Marquee Strip (7 Active Clients + Live Subs Sync) -->
+        <!-- Client Marquee Strip (All 7 Active Clients with Subs & Avatars synced to YouTube) -->
         <div class="container trust-bar">
-            <p class="trust-label">Dôverujú mi poprední CZ/SK tvorcovia</p>
+            <p class="trust-label">Dôverujú mi poprední CZ/SK tvorcovia (denne aktualizované podľa YouTube)</p>
             <div class="marquee-wrap">
                 <div class="marquee-track">
                     <a href="#portfolio" onclick="selectClient('mgfitman')" class="marquee-pill">
@@ -1905,19 +1916,19 @@
                     </a>
                     <a href="#portfolio" onclick="selectClient('twiler')" class="marquee-pill">
                         <img src="https://zyfonix.eu/twiler.jpg" data-client-img="twiler" data-stage="0" alt="TwileR" onerror="handleClientAvatarError(this, 'twiler')">
-                        TwileR <span data-subs-short="twiler">YouTube</span>
+                        TwileR <span data-subs-short="twiler">100K+</span>
                     </a>
                     <a href="#portfolio" onclick="selectClient('nardosk')" class="marquee-pill">
                         <img src="https://zyfonix.eu/nardosk.jpg" data-client-img="nardosk" data-stage="0" alt="Nardosk" onerror="handleClientAvatarError(this, 'nardosk')">
-                        Nardosk <span data-subs-short="nardosk">YouTube</span>
+                        Nardosk <span data-subs-short="nardosk">50K+</span>
                     </a>
                     <a href="#portfolio" onclick="selectClient('capygod')" class="marquee-pill">
                         <img src="https://zyfonix.eu/capygod.jpg" data-client-img="capygod" data-stage="0" alt="CapyGod" onerror="handleClientAvatarError(this, 'capygod')">
-                        CapyGod <span data-subs-short="capygod">YouTube</span>
+                        CapyGod <span data-subs-short="capygod">10K+</span>
                     </a>
                     <a href="#portfolio" onclick="selectClient('stepsirl')" class="marquee-pill">
                         <img src="https://zyfonix.eu/stepsirl.jpg" data-client-img="stepsirl" data-stage="0" alt="Štěps IRL" onerror="handleClientAvatarError(this, 'stepsirl')">
-                        Štěps IRL <span data-subs-short="stepsirl">YouTube</span>
+                        Štěps IRL <span data-subs-short="stepsirl">10K+</span>
                     </a>
                     <!-- Duplicate for seamless infinite loop -->
                     <a href="#portfolio" onclick="selectClient('mgfitman')" class="marquee-pill">
@@ -1934,19 +1945,19 @@
                     </a>
                     <a href="#portfolio" onclick="selectClient('twiler')" class="marquee-pill">
                         <img src="https://zyfonix.eu/twiler.jpg" data-client-img="twiler" data-stage="0" alt="TwileR" onerror="handleClientAvatarError(this, 'twiler')">
-                        TwileR <span data-subs-short="twiler">YouTube</span>
+                        TwileR <span data-subs-short="twiler">100K+</span>
                     </a>
                     <a href="#portfolio" onclick="selectClient('nardosk')" class="marquee-pill">
                         <img src="https://zyfonix.eu/nardosk.jpg" data-client-img="nardosk" data-stage="0" alt="Nardosk" onerror="handleClientAvatarError(this, 'nardosk')">
-                        Nardosk <span data-subs-short="nardosk">YouTube</span>
+                        Nardosk <span data-subs-short="nardosk">50K+</span>
                     </a>
                     <a href="#portfolio" onclick="selectClient('capygod')" class="marquee-pill">
                         <img src="https://zyfonix.eu/capygod.jpg" data-client-img="capygod" data-stage="0" alt="CapyGod" onerror="handleClientAvatarError(this, 'capygod')">
-                        CapyGod <span data-subs-short="capygod">YouTube</span>
+                        CapyGod <span data-subs-short="capygod">10K+</span>
                     </a>
                     <a href="#portfolio" onclick="selectClient('stepsirl')" class="marquee-pill">
                         <img src="https://zyfonix.eu/stepsirl.jpg" data-client-img="stepsirl" data-stage="0" alt="Štěps IRL" onerror="handleClientAvatarError(this, 'stepsirl')">
-                        Štěps IRL <span data-subs-short="stepsirl">YouTube</span>
+                        Štěps IRL <span data-subs-short="stepsirl">10K+</span>
                     </a>
                 </div>
             </div>
@@ -2036,13 +2047,13 @@
         </div>
     </section>
 
-    <!-- Portfolio Section (7 Clients Hardcoded + Connected to YouTube Channels + Live Subs) -->
+    <!-- Portfolio Section (All 7 Clients with Subs Next to Name & Daily YouTube Sync) -->
     <section id="portfolio">
         <div class="container">
             <div class="section-header">
                 <div class="section-eyebrow"><span class="dot"></span> Portfólio</div>
                 <h2 class="section-title">Moje práce & Klienti</h2>
-                <p class="section-desc">Vyber si tvorcu nižšie a pozri si ukážky videí, na ktorých som pracoval.</p>
+                <p class="section-desc">Vyber si tvorcu nižšie a pozri si ukážky videí, na ktorých som pracoval. Počty odberateľov aj videní sa automaticky aktualizujú podľa YouTube.</p>
             </div>
 
             <div class="portfolio-controls">
@@ -2094,7 +2105,7 @@
                         </div>
                         <div class="client-meta">
                             <div class="client-name">TwileR</div>
-                            <div class="client-subs" data-subs-full="twiler">YouTube</div>
+                            <div class="client-subs" data-subs-full="twiler">100K+ odberateľov</div>
                         </div>
                         <a href="https://www.youtube.com/channel/UCvT293-aCO9EbKaPJM3tA7Q" target="_blank" rel="noopener noreferrer" class="client-yt-mini" title="Otvoriť YouTube kanál TwileR" onclick="event.stopPropagation()">↗</a>
                     </div>
@@ -2107,7 +2118,7 @@
                         </div>
                         <div class="client-meta">
                             <div class="client-name">Nardosk</div>
-                            <div class="client-subs" data-subs-full="nardosk">YouTube</div>
+                            <div class="client-subs" data-subs-full="nardosk">50K+ odberateľov</div>
                         </div>
                         <a href="https://www.youtube.com/@Nardosk1" target="_blank" rel="noopener noreferrer" class="client-yt-mini" title="Otvoriť YouTube kanál Nardosk" onclick="event.stopPropagation()">↗</a>
                     </div>
@@ -2120,7 +2131,7 @@
                         </div>
                         <div class="client-meta">
                             <div class="client-name">CapyGod</div>
-                            <div class="client-subs" data-subs-full="capygod">YouTube</div>
+                            <div class="client-subs" data-subs-full="capygod">10K+ odberateľov</div>
                         </div>
                         <a href="https://www.youtube.com/@CapyGod_YT" target="_blank" rel="noopener noreferrer" class="client-yt-mini" title="Otvoriť YouTube kanál CapyGod" onclick="event.stopPropagation()">↗</a>
                     </div>
@@ -2133,7 +2144,7 @@
                         </div>
                         <div class="client-meta">
                             <div class="client-name">Štěps IRL</div>
-                            <div class="client-subs" data-subs-full="stepsirl">YouTube</div>
+                            <div class="client-subs" data-subs-full="stepsirl">10K+ odberateľov</div>
                         </div>
                         <a href="https://www.youtube.com/channel/UCuQwP1mNT0Nl0LBu4tSXhgw" target="_blank" rel="noopener noreferrer" class="client-yt-mini" title="Otvoriť YouTube kanál Štěps IRL" onclick="event.stopPropagation()">↗</a>
                     </div>
@@ -2143,6 +2154,7 @@
                     <div class="active-client-title">
                         <img id="active-client-avatar" src="https://zyfonix.eu/mgfitman.jpg" data-client-img="mgfitman" data-stage="0" alt="MGFitman" onerror="handleClientAvatarError(this, 'mgfitman')">
                         <span>Vybraný klient: <strong id="active-client-label">MGFitman</strong></span>
+                        <span class="active-client-subs-badge" id="active-client-subs-badge">800K+ odberateľov</span>
                     </div>
                     <div class="active-client-right">
                         <div class="active-client-count" id="active-client-count">1 projekt</div>
@@ -2406,14 +2418,14 @@
             } catch (e) {}
         }
 
-        // 7 Active Clients, YouTube Channels & Videos Database
+        // All 7 Active Clients, YouTube Channels, Default Subs & Videos Database
         const clients = {
             mgfitman: {
                 name: 'MGFitman',
                 channelUrl: 'https://www.youtube.com/@MGFitman',
                 ytHandle: 'MGFitman',
                 localImg: 'mgfitman.jpg',
-                defaultSubs: '800K+',
+                subs: '800K+',
                 videos: [
                     { id: 'bgl_agnHtB8', isShort: true, fallbackTitle: 'Kdo má lepší BICÁK?' }
                 ]
@@ -2423,7 +2435,7 @@
                 channelUrl: 'https://www.youtube.com/@MGFitmanGaming',
                 ytHandle: 'MGFitmanGaming',
                 localImg: 'mgfitman_gaming.jpg',
-                defaultSubs: '250K+',
+                subs: '250K+',
                 videos: [
                     { id: 'DIyRSMtodbk', isShort: true, fallbackTitle: 'MGFitman Gaming Short' }
                 ]
@@ -2433,7 +2445,7 @@
                 channelUrl: 'https://www.youtube.com/@SkyfCS',
                 ytHandle: 'SkyfCS',
                 localImg: 'skyf.jpg',
-                defaultSubs: '130K+',
+                subs: '130K+',
                 videos: [
                     { id: '2RMiRz7Ii-s', isShort: false },
                     { id: 'KQqVkijipns', isShort: false },
@@ -2446,7 +2458,7 @@
                 channelUrl: 'https://www.youtube.com/channel/UCvT293-aCO9EbKaPJM3tA7Q',
                 ytHandle: 'TwiIeR',
                 localImg: 'twiler.jpg',
-                defaultSubs: '',
+                subs: '100K+',
                 videos: [
                     { id: '4Rz7DuQ-DWc', isShort: false },
                     { id: 'CEyNgN4ZDEU', isShort: false },
@@ -2463,7 +2475,7 @@
                 channelUrl: 'https://www.youtube.com/@Nardosk1',
                 ytHandle: 'Nardosk1',
                 localImg: 'nardosk.jpg',
-                defaultSubs: '',
+                subs: '50K+',
                 videos: [
                     { id: '0Ai8a5fje-o', isShort: false, fallbackTitle: 'MAL SOM 24 HODÍN NA ŽIVOT... TAKTO SOM ICH VYUŽIL' }
                 ]
@@ -2473,7 +2485,7 @@
                 channelUrl: 'https://www.youtube.com/@CapyGod_YT',
                 ytHandle: 'CapyGod_YT',
                 localImg: 'capygod.jpg',
-                defaultSubs: '',
+                subs: '10K+',
                 videos: []
             },
             stepsirl: {
@@ -2481,10 +2493,12 @@
                 channelUrl: 'https://www.youtube.com/channel/UCuQwP1mNT0Nl0LBu4tSXhgw',
                 ytHandle: 'ŠtěpsIRL',
                 localImg: 'stepsirl.jpg',
-                defaultSubs: '',
+                subs: '10K+',
                 videos: []
             }
         };
+
+        let activeClientKey = 'mgfitman';
 
         // Multi-stage Avatar Fallback: zyfonix.eu -> local file -> YouTube unavatar -> Letter Avatar
         function handleOwnerImgError(img) {
@@ -2516,21 +2530,54 @@
             }
         }
 
-        // Daily YouTube Channel Avatar + Subscriber Count Sync (once every 24h)
+        // Normalize YouTube Subscriber Count (handles both EN "812K subscribers" and SK/CZ "812 tis. odberateľov" & 2026 YouTube UI)
         function normalizeSubCount(rawText) {
             if (!rawText) return '';
-            let s = rawText.replace(/subscribers|subscriber|odberateľov|odběratelů|odberatelia/gi, '').trim();
-            s = s.replace(/\s+/g, '').replace(/tis\.?/i, 'K').replace(/mil\.?/i, 'M').replace(',', '.');
-            if (/^\d+(\.\d+)?[KMkm]?$/.test(s)) {
-                return s.toUpperCase() + '+';
+            let s = rawText.replace(/subscribers|subscriber|odberateľov|odběratelů|odberatelia|odberateľ/gi, '').trim();
+            s = s.replace(/\u00a0/g, '').replace(/\s+/g, '');
+            s = s.replace(/tis\.?/i, 'K').replace(/mil\.?/i, 'M').replace(',', '.');
+            const m = s.match(/^(\d+(?:\.\d+)?)([KMkm]?)$/);
+            if (!m) return '';
+            const num = parseFloat(m[1]);
+            const unit = (m[2] || '').toUpperCase();
+            if (!unit && num >= 1000) {
+                if (num >= 1000000) return (num / 1000000).toFixed(1).replace('.0', '') + 'M+';
+                return Math.round(num / 1000) + 'K+';
             }
-            return '';
+            return num + unit + '+';
+        }
+
+        function parseSubLabelToNumber(subStr) {
+            if (!subStr) return 0;
+            const clean = subStr.replace('+', '').trim().toUpperCase();
+            const num = parseFloat(clean);
+            if (isNaN(num)) return 0;
+            if (clean.endsWith('M')) return num * 1000000;
+            if (clean.endsWith('K')) return num * 1000;
+            return num;
+        }
+
+        function updateTotalClientReach() {
+            let sumSubs = 0;
+            Object.keys(clients).forEach(k => {
+                sumSubs += parseSubLabelToNumber(clients[k].subs);
+            });
+            const reachEl = document.getElementById('hero-reach-inline');
+            if (reachEl && sumSubs > 0) {
+                if (sumSubs >= 1000000) {
+                    reachEl.textContent = (sumSubs / 1000000).toFixed(1).replace('.0', '') + 'M+';
+                } else {
+                    reachEl.textContent = Math.round(sumSubs / 1000) + 'K+';
+                }
+            }
         }
 
         function applyClientSubs(subsMap) {
             Object.keys(subsMap).forEach(key => {
                 const subVal = subsMap[key];
-                if (!subVal) return;
+                if (!subVal || !clients[key]) return;
+                clients[key].subs = subVal;
+
                 document.querySelectorAll(`[data-subs-short="${key}"]`).forEach(el => {
                     el.textContent = subVal;
                 });
@@ -2538,6 +2585,12 @@
                     el.textContent = `${subVal} odberateľov`;
                 });
             });
+
+            const activeBadge = document.getElementById('active-client-subs-badge');
+            if (activeBadge && clients[activeClientKey]) {
+                activeBadge.textContent = `${clients[activeClientKey].subs} odberateľov`;
+            }
+            updateTotalClientReach();
         }
 
         function applyChannelAvatar(clientKey, avatarUrl) {
@@ -2552,9 +2605,28 @@
             });
         }
 
+        async function fetchChannelHtmlWithFallback(channelUrl) {
+            const targetUrl = channelUrl + (channelUrl.includes('?') ? '&' : '?') + 'hl=en&persist_hl=1';
+            const proxies = [
+                `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`,
+                `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(targetUrl)}`
+            ];
+            for (const p of proxies) {
+                try {
+                    const r = await fetch(p);
+                    if (r.ok) {
+                        const text = await r.text();
+                        if (text && text.length > 500) return text;
+                    }
+                } catch (e) {}
+            }
+            return null;
+        }
+
+        // Daily YouTube Channel Subscriber Count + Avatar Sync for ALL 7 Channels
         async function syncDailyYouTubeChannels() {
-            const SUBS_STORAGE_KEY = 'zyfonix_daily_yt_subs_v2';
-            const PFPS_STORAGE_KEY = 'zyfonix_yt_pfps_v4';
+            const SUBS_STORAGE_KEY = 'zyfonix_daily_yt_subs_v3';
+            const PFPS_STORAGE_KEY = 'zyfonix_yt_pfps_v5';
             const ONE_DAY_MS = 24 * 60 * 60 * 1000;
 
             let cachedPfps = {};
@@ -2579,24 +2651,34 @@
             await Promise.allSettled(Object.keys(clients).map(async (key) => {
                 const c = clients[key];
                 try {
-                    const res = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(c.channelUrl)}`);
-                    if (!res.ok) return;
-                    const html = await res.text();
+                    const html = await fetchChannelHtmlWithFallback(c.channelUrl);
+                    if (!html) return;
 
-                    // Extract Avatar
-                    const imgMatch = html.match(/property="og:image"\s+content="([^"]+)"/i) || html.match(/https:\/\/yt3\.googleusercontent\.com\/[^"'\s<>]+/i);
+                    // 1. Extract Live Channel Avatar
+                    const imgMatch = html.match(/property="og:image"\s+content="([^"]+)"/i)
+                        || html.match(/https:\/\/yt3\.googleusercontent\.com\/[^"'\s<>]+/i);
                     const avatarUrl = imgMatch ? (imgMatch[1] || imgMatch[0]) : null;
                     if (avatarUrl && avatarUrl.startsWith('http')) {
                         cachedPfps[key] = avatarUrl;
                         applyChannelAvatar(key, avatarUrl);
                     }
 
-                    // Extract Subscriber Count
-                    const subMatch = html.match(/"subscriberCountText":\s*\{\s*"(?:simpleText|accessibility)":\s*(?:\{\s*"accessibilityData":\s*\{\s*"label":\s*)?"([^"]+)"/i)
-                        || html.match(/([\d.,]+\s*(?:K|M|tis\.|mil\.)?)\s*(?:subscribers|odberateľov|odběratelů)/i);
-                    if (subMatch && subMatch[1]) {
-                        const formattedSub = normalizeSubCount(subMatch[1]);
-                        if (formattedSub) freshSubs[key] = formattedSub;
+                    // 2. Extract Live Subscriber Count (supports both 2026 pageHeaderViewModel and classic subscriberCountText)
+                    const subPatterns = [
+                        /"subscriberCountText":\s*\{\s*"(?:simpleText|accessibility)":\s*(?:\{\s*"accessibilityData":\s*\{\s*"label":\s*)?"([^"]+)"/i,
+                        /"content":\s*"([\d.,]+\s*(?:K|M|tis\.?|mil\.?)?\s*(?:subscribers|subscriber|odberateľov|odběratelů|odberatelia))"/i,
+                        /([\d.,]+\s*(?:K|M|tis\.?|mil\.?)?)\s*(?:subscribers|odberateľov|odběratelů)/i
+                    ];
+
+                    for (const pattern of subPatterns) {
+                        const m = html.match(pattern);
+                        if (m && m[1]) {
+                            const formattedSub = normalizeSubCount(m[1]);
+                            if (formattedSub) {
+                                freshSubs[key] = formattedSub;
+                                break;
+                            }
+                        }
                     }
                 } catch (e) {}
             }));
@@ -2741,8 +2823,10 @@
 
         let renderTimeout = null;
         function renderVideos(clientKey) {
+            activeClientKey = clientKey;
             const grid = document.getElementById('video-grid');
             const labelEl = document.getElementById('active-client-label');
+            const subsBadgeEl = document.getElementById('active-client-subs-badge');
             const countEl = document.getElementById('active-client-count');
             const avatarEl = document.getElementById('active-client-avatar');
             const ytBtnEl = document.getElementById('active-client-yt-btn');
@@ -2752,6 +2836,7 @@
             const vids = clientData.videos;
 
             if (labelEl) labelEl.textContent = clientData.name;
+            if (subsBadgeEl) subsBadgeEl.textContent = `${clientData.subs} odberateľov`;
             if (ytBtnEl) ytBtnEl.href = clientData.channelUrl;
             if (avatarEl) {
                 avatarEl.style.display = 'inline-block';
@@ -2776,7 +2861,7 @@
                     grid.innerHTML = `
                         <div class="coming-soon-box">
                             <h4>COMING SOON</h4>
-                            <p>Nové videá v spolupráci s tvorcom <strong>${clientData.name}</strong> budú pridané už čoskoro.</p>
+                            <p>Nové videá v spolupráci s tvorcom <strong>${clientData.name}</strong> (${clientData.subs} odberateľov) budú pridané už čoskoro.</p>
                             <a href="${clientData.channelUrl}" target="_blank" rel="noopener noreferrer" class="yt-channel-pill">
                                 ▶ Pozrieť YouTube kanál ${clientData.name} ↗
                             </a>
@@ -2936,6 +3021,7 @@
         // Init Events
         document.addEventListener('DOMContentLoaded', () => {
             renderVideos('mgfitman');
+            updateTotalClientReach();
             syncDailyYouTubeViews();
             syncDailyYouTubeChannels();
 
