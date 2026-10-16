@@ -636,7 +636,7 @@
             display: flex;
             gap: 14px;
             width: max-content;
-            animation: scrollMarquee 34s linear infinite;
+            animation: scrollMarquee 32s linear infinite;
         }
 
         .marquee-track:hover {
@@ -1172,13 +1172,6 @@
             transform: scale(1.06);
         }
 
-        .video-thumb-wrap.ig-thumb {
-            background: radial-gradient(circle at 30% 107%, #52525b 0%, #27272a 45%, #09090b 90%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
         .play-btn-overlay {
             position: absolute;
             top: 50%;
@@ -1360,7 +1353,8 @@
         /* ================= REVIEWS SECTION ================= */
         .reviews-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: minmax(0, 680px);
+            justify-content: center;
             gap: 26px;
         }
 
@@ -1854,8 +1848,8 @@
                 <li><a href="#hero" class="active-link">Domov</a></li>
                 <li><a href="#about">O mne</a></li>
                 <li><a href="#portfolio">Portfólio</a></li>
-                <li><a href="#services">Služby</a></li>
                 <li><a href="#reviews">Recenzie</a></li>
+                <li><a href="#services">Služby</a></li>
                 <li><a href="#faq">FAQ</a></li>
                 <li><a href="#contact">Kontakt</a></li>
             </ul>
@@ -1887,88 +1881,72 @@
             </div>
             <div class="hero-highlights">
                 <div>✓ <strong id="hero-views-inline">562K+</strong> organických videní</div>
-                <div>✓ <strong>830K+</strong> dosah klientov</div>
+                <div>✓ <strong id="hero-reach-inline">1.2M+</strong> dosah klientov</div>
                 <div>✓ <strong>YouTube, Shorts & Reels</strong></div>
             </div>
         </div>
 
-        <!-- Client Marquee Strip (All 9 Clients Hardcoded + Avatars) -->
+        <!-- Client Marquee Strip (7 Active Clients + Live Subs Sync) -->
         <div class="container trust-bar">
             <p class="trust-label">Dôverujú mi poprední CZ/SK tvorcovia</p>
             <div class="marquee-wrap">
                 <div class="marquee-track">
-                    <a href="#portfolio" onclick="selectClientFromMarquee('mgfitman')" class="marquee-pill">
+                    <a href="#portfolio" onclick="selectClient('mgfitman')" class="marquee-pill">
                         <img src="https://zyfonix.eu/mgfitman.jpg" data-client-img="mgfitman" data-stage="0" alt="MGFitman" onerror="handleClientAvatarError(this, 'mgfitman')">
-                        MGFitman <span>450K+</span>
+                        MGFitman <span data-subs-short="mgfitman">800K+</span>
                     </a>
-                    <a href="#portfolio" onclick="selectClientFromMarquee('mgfitman_gaming')" class="marquee-pill">
+                    <a href="#portfolio" onclick="selectClient('mgfitman_gaming')" class="marquee-pill">
                         <img src="https://zyfonix.eu/mgfitman_gaming.jpg" data-client-img="mgfitman_gaming" data-stage="0" alt="MGFitman Gaming" onerror="handleClientAvatarError(this, 'mgfitman_gaming')">
-                        MGFitman Gaming <span>250K+</span>
+                        MGFitman Gaming <span data-subs-short="mgfitman_gaming">250K+</span>
                     </a>
-                    <a href="#portfolio" onclick="selectClientFromMarquee('skyf')" class="marquee-pill">
+                    <a href="#portfolio" onclick="selectClient('skyf')" class="marquee-pill">
                         <img src="https://zyfonix.eu/skyf.jpg" data-client-img="skyf" data-stage="0" alt="Skyf" onerror="handleClientAvatarError(this, 'skyf')">
-                        Skyf <span>130K+</span>
+                        Skyf <span data-subs-short="skyf">130K+</span>
                     </a>
-                    <a href="#portfolio" onclick="selectClientFromMarquee('twiler')" class="marquee-pill">
+                    <a href="#portfolio" onclick="selectClient('twiler')" class="marquee-pill">
                         <img src="https://zyfonix.eu/twiler.jpg" data-client-img="twiler" data-stage="0" alt="TwileR" onerror="handleClientAvatarError(this, 'twiler')">
-                        TwileR <span>YouTube</span>
+                        TwileR <span data-subs-short="twiler">YouTube</span>
                     </a>
-                    <a href="#portfolio" onclick="selectClientFromMarquee('nardosk')" class="marquee-pill">
+                    <a href="#portfolio" onclick="selectClient('nardosk')" class="marquee-pill">
                         <img src="https://zyfonix.eu/nardosk.jpg" data-client-img="nardosk" data-stage="0" alt="Nardosk" onerror="handleClientAvatarError(this, 'nardosk')">
-                        Nardosk <span>YouTube</span>
+                        Nardosk <span data-subs-short="nardosk">YouTube</span>
                     </a>
-                    <a href="#portfolio" onclick="selectClientFromMarquee('capygod')" class="marquee-pill">
+                    <a href="#portfolio" onclick="selectClient('capygod')" class="marquee-pill">
                         <img src="https://zyfonix.eu/capygod.jpg" data-client-img="capygod" data-stage="0" alt="CapyGod" onerror="handleClientAvatarError(this, 'capygod')">
-                        CapyGod <span>YouTube</span>
+                        CapyGod <span data-subs-short="capygod">YouTube</span>
                     </a>
-                    <a href="#portfolio" onclick="selectClientFromMarquee('stepsirl')" class="marquee-pill">
+                    <a href="#portfolio" onclick="selectClient('stepsirl')" class="marquee-pill">
                         <img src="https://zyfonix.eu/stepsirl.jpg" data-client-img="stepsirl" data-stage="0" alt="Štěps IRL" onerror="handleClientAvatarError(this, 'stepsirl')">
-                        Štěps IRL <span>YouTube</span>
-                    </a>
-                    <a href="#portfolio" onclick="selectClientFromMarquee('simonyt')" class="marquee-pill">
-                        <img src="https://zyfonix.eu/simonyt.jpg" data-client-img="simonyt" data-stage="0" alt="ŠimonYT" onerror="handleClientAvatarError(this, 'simonyt')">
-                        ŠimonYT <span>1,7K+</span>
-                    </a>
-                    <a href="#portfolio" onclick="selectClientFromMarquee('jongles')" class="marquee-pill">
-                        <img src="https://zyfonix.eu/jongles.jpg" data-client-img="jongles" data-stage="0" alt="JonglesGTA" onerror="handleClientAvatarError(this, 'jongles')">
-                        JonglesGTA <span>YouTube</span>
+                        Štěps IRL <span data-subs-short="stepsirl">YouTube</span>
                     </a>
                     <!-- Duplicate for seamless infinite loop -->
-                    <a href="#portfolio" onclick="selectClientFromMarquee('mgfitman')" class="marquee-pill">
+                    <a href="#portfolio" onclick="selectClient('mgfitman')" class="marquee-pill">
                         <img src="https://zyfonix.eu/mgfitman.jpg" data-client-img="mgfitman" data-stage="0" alt="MGFitman" onerror="handleClientAvatarError(this, 'mgfitman')">
-                        MGFitman <span>450K+</span>
+                        MGFitman <span data-subs-short="mgfitman">800K+</span>
                     </a>
-                    <a href="#portfolio" onclick="selectClientFromMarquee('mgfitman_gaming')" class="marquee-pill">
+                    <a href="#portfolio" onclick="selectClient('mgfitman_gaming')" class="marquee-pill">
                         <img src="https://zyfonix.eu/mgfitman_gaming.jpg" data-client-img="mgfitman_gaming" data-stage="0" alt="MGFitman Gaming" onerror="handleClientAvatarError(this, 'mgfitman_gaming')">
-                        MGFitman Gaming <span>250K+</span>
+                        MGFitman Gaming <span data-subs-short="mgfitman_gaming">250K+</span>
                     </a>
-                    <a href="#portfolio" onclick="selectClientFromMarquee('skyf')" class="marquee-pill">
+                    <a href="#portfolio" onclick="selectClient('skyf')" class="marquee-pill">
                         <img src="https://zyfonix.eu/skyf.jpg" data-client-img="skyf" data-stage="0" alt="Skyf" onerror="handleClientAvatarError(this, 'skyf')">
-                        Skyf <span>130K+</span>
+                        Skyf <span data-subs-short="skyf">130K+</span>
                     </a>
-                    <a href="#portfolio" onclick="selectClientFromMarquee('twiler')" class="marquee-pill">
+                    <a href="#portfolio" onclick="selectClient('twiler')" class="marquee-pill">
                         <img src="https://zyfonix.eu/twiler.jpg" data-client-img="twiler" data-stage="0" alt="TwileR" onerror="handleClientAvatarError(this, 'twiler')">
-                        TwileR <span>YouTube</span>
+                        TwileR <span data-subs-short="twiler">YouTube</span>
                     </a>
-                    <a href="#portfolio" onclick="selectClientFromMarquee('nardosk')" class="marquee-pill">
+                    <a href="#portfolio" onclick="selectClient('nardosk')" class="marquee-pill">
                         <img src="https://zyfonix.eu/nardosk.jpg" data-client-img="nardosk" data-stage="0" alt="Nardosk" onerror="handleClientAvatarError(this, 'nardosk')">
-                        Nardosk <span>YouTube</span>
+                        Nardosk <span data-subs-short="nardosk">YouTube</span>
                     </a>
-                    <a href="#portfolio" onclick="selectClientFromMarquee('capygod')" class="marquee-pill">
+                    <a href="#portfolio" onclick="selectClient('capygod')" class="marquee-pill">
                         <img src="https://zyfonix.eu/capygod.jpg" data-client-img="capygod" data-stage="0" alt="CapyGod" onerror="handleClientAvatarError(this, 'capygod')">
-                        CapyGod <span>YouTube</span>
+                        CapyGod <span data-subs-short="capygod">YouTube</span>
                     </a>
-                    <a href="#portfolio" onclick="selectClientFromMarquee('stepsirl')" class="marquee-pill">
+                    <a href="#portfolio" onclick="selectClient('stepsirl')" class="marquee-pill">
                         <img src="https://zyfonix.eu/stepsirl.jpg" data-client-img="stepsirl" data-stage="0" alt="Štěps IRL" onerror="handleClientAvatarError(this, 'stepsirl')">
-                        Štěps IRL <span>YouTube</span>
-                    </a>
-                    <a href="#portfolio" onclick="selectClientFromMarquee('simonyt')" class="marquee-pill">
-                        <img src="https://zyfonix.eu/simonyt.jpg" data-client-img="simonyt" data-stage="0" alt="ŠimonYT" onerror="handleClientAvatarError(this, 'simonyt')">
-                        ŠimonYT <span>1,7K+</span>
-                    </a>
-                    <a href="#portfolio" onclick="selectClientFromMarquee('jongles')" class="marquee-pill">
-                        <img src="https://zyfonix.eu/jongles.jpg" data-client-img="jongles" data-stage="0" alt="JonglesGTA" onerror="handleClientAvatarError(this, 'jongles')">
-                        JonglesGTA <span>YouTube</span>
+                        Štěps IRL <span data-subs-short="stepsirl">YouTube</span>
                     </a>
                 </div>
             </div>
@@ -1996,7 +1974,7 @@
                         <p>Video editor so zameraním na dynamické a pútavé videá. Špecializujem sa na dlhodobé aj projektové spolupráce s influencermi a YouTube tvorcami.</p>
                         <p>Mojím cieľom je pretaviť surový záznam do vizuálneho zážitku, ktorý zaujme a udrží pozornosť diváka od prvej do poslednej sekundy. Využívam moderné techniky strihu, color grading a vizuálne efekty na tvorbu profesionálneho obsahu.</p>
                         <div class="about-tags">
-                            <span class="tag-chip">Nástroj: <strong>CapCut Pro</strong></span>
+                            <span class="tag-chip">Nástroje: <strong>CapCut Pro & Premiere Pro</strong></span>
                             <span class="tag-chip">Zameranie: <strong>Watch Time & Retencia</strong></span>
                             <span class="tag-chip">Formáty: <strong>16:9 & 9:16</strong></span>
                         </div>
@@ -2058,7 +2036,7 @@
         </div>
     </section>
 
-    <!-- Portfolio Section (All 9 Clients Hardcoded + Connected to YouTube Channels) -->
+    <!-- Portfolio Section (7 Clients Hardcoded + Connected to YouTube Channels + Live Subs) -->
     <section id="portfolio">
         <div class="container">
             <div class="section-header">
@@ -2070,120 +2048,94 @@
             <div class="portfolio-controls">
                 <div class="client-row" id="client-row">
                     <!-- 1. MGFitman -->
-                    <div class="client-card active" data-client="mgfitman">
+                    <div class="client-card active" data-client="mgfitman" onclick="selectClient('mgfitman')">
                         <div class="client-avatar-wrap">
                             <img src="https://zyfonix.eu/mgfitman.jpg" data-client-img="mgfitman" data-stage="0" alt="MGFitman" onerror="handleClientAvatarError(this, 'mgfitman')">
                             <div class="letter-avatar" style="display:none">M</div>
                         </div>
                         <div class="client-meta">
                             <div class="client-name">MGFitman</div>
-                            <div class="client-subs">450K+ odberateľov</div>
+                            <div class="client-subs" data-subs-full="mgfitman">800K+ odberateľov</div>
                         </div>
                         <a href="https://www.youtube.com/@MGFitman" target="_blank" rel="noopener noreferrer" class="client-yt-mini" title="Otvoriť YouTube kanál MGFitman" onclick="event.stopPropagation()">↗</a>
                     </div>
 
                     <!-- 2. MGFitman Gaming -->
-                    <div class="client-card" data-client="mgfitman_gaming">
+                    <div class="client-card" data-client="mgfitman_gaming" onclick="selectClient('mgfitman_gaming')">
                         <div class="client-avatar-wrap">
                             <img src="https://zyfonix.eu/mgfitman_gaming.jpg" data-client-img="mgfitman_gaming" data-stage="0" alt="MGFitman Gaming" onerror="handleClientAvatarError(this, 'mgfitman_gaming')">
                             <div class="letter-avatar" style="display:none">M</div>
                         </div>
                         <div class="client-meta">
                             <div class="client-name">MGFitman Gaming</div>
-                            <div class="client-subs">250K+ odberateľov</div>
+                            <div class="client-subs" data-subs-full="mgfitman_gaming">250K+ odberateľov</div>
                         </div>
                         <a href="https://www.youtube.com/@MGFitmanGaming" target="_blank" rel="noopener noreferrer" class="client-yt-mini" title="Otvoriť YouTube kanál MGFitman Gaming" onclick="event.stopPropagation()">↗</a>
                     </div>
 
                     <!-- 3. Skyf -->
-                    <div class="client-card" data-client="skyf">
+                    <div class="client-card" data-client="skyf" onclick="selectClient('skyf')">
                         <div class="client-avatar-wrap">
                             <img src="https://zyfonix.eu/skyf.jpg" data-client-img="skyf" data-stage="0" alt="Skyf" onerror="handleClientAvatarError(this, 'skyf')">
                             <div class="letter-avatar" style="display:none">S</div>
                         </div>
                         <div class="client-meta">
                             <div class="client-name">Skyf</div>
-                            <div class="client-subs">130K+ odberateľov</div>
+                            <div class="client-subs" data-subs-full="skyf">130K+ odberateľov</div>
                         </div>
                         <a href="https://www.youtube.com/@SkyfCS" target="_blank" rel="noopener noreferrer" class="client-yt-mini" title="Otvoriť YouTube kanál Skyf" onclick="event.stopPropagation()">↗</a>
                     </div>
 
                     <!-- 4. TwileR -->
-                    <div class="client-card" data-client="twiler">
+                    <div class="client-card" data-client="twiler" onclick="selectClient('twiler')">
                         <div class="client-avatar-wrap">
                             <img src="https://zyfonix.eu/twiler.jpg" data-client-img="twiler" data-stage="0" alt="TwileR" onerror="handleClientAvatarError(this, 'twiler')">
                             <div class="letter-avatar" style="display:none">T</div>
                         </div>
                         <div class="client-meta">
                             <div class="client-name">TwileR</div>
-                            <div class="client-subs">YouTube</div>
+                            <div class="client-subs" data-subs-full="twiler">YouTube</div>
                         </div>
                         <a href="https://www.youtube.com/channel/UCvT293-aCO9EbKaPJM3tA7Q" target="_blank" rel="noopener noreferrer" class="client-yt-mini" title="Otvoriť YouTube kanál TwileR" onclick="event.stopPropagation()">↗</a>
                     </div>
 
                     <!-- 5. Nardosk -->
-                    <div class="client-card" data-client="nardosk">
+                    <div class="client-card" data-client="nardosk" onclick="selectClient('nardosk')">
                         <div class="client-avatar-wrap">
                             <img src="https://zyfonix.eu/nardosk.jpg" data-client-img="nardosk" data-stage="0" alt="Nardosk" onerror="handleClientAvatarError(this, 'nardosk')">
                             <div class="letter-avatar" style="display:none">N</div>
                         </div>
                         <div class="client-meta">
                             <div class="client-name">Nardosk</div>
-                            <div class="client-subs">YouTube</div>
+                            <div class="client-subs" data-subs-full="nardosk">YouTube</div>
                         </div>
                         <a href="https://www.youtube.com/@Nardosk1" target="_blank" rel="noopener noreferrer" class="client-yt-mini" title="Otvoriť YouTube kanál Nardosk" onclick="event.stopPropagation()">↗</a>
                     </div>
 
-                    <!-- 6. ŠimonYT -->
-                    <div class="client-card" data-client="simonyt">
-                        <div class="client-avatar-wrap">
-                            <img src="https://zyfonix.eu/simonyt.jpg" data-client-img="simonyt" data-stage="0" alt="ŠimonYT" onerror="handleClientAvatarError(this, 'simonyt')">
-                            <div class="letter-avatar" style="display:none">Š</div>
-                        </div>
-                        <div class="client-meta">
-                            <div class="client-name">ŠimonYT</div>
-                            <div class="client-subs">1,7K+ odberateľov</div>
-                        </div>
-                        <a href="https://www.youtube.com/@%C5%A1imonvencl" target="_blank" rel="noopener noreferrer" class="client-yt-mini" title="Otvoriť YouTube kanál ŠimonYT" onclick="event.stopPropagation()">↗</a>
-                    </div>
-
-                    <!-- 7. CapyGod -->
-                    <div class="client-card" data-client="capygod">
+                    <!-- 6. CapyGod -->
+                    <div class="client-card" data-client="capygod" onclick="selectClient('capygod')">
                         <div class="client-avatar-wrap">
                             <img src="https://zyfonix.eu/capygod.jpg" data-client-img="capygod" data-stage="0" alt="CapyGod" onerror="handleClientAvatarError(this, 'capygod')">
                             <div class="letter-avatar" style="display:none">C</div>
                         </div>
                         <div class="client-meta">
                             <div class="client-name">CapyGod</div>
-                            <div class="client-subs">YouTube</div>
+                            <div class="client-subs" data-subs-full="capygod">YouTube</div>
                         </div>
                         <a href="https://www.youtube.com/@CapyGod_YT" target="_blank" rel="noopener noreferrer" class="client-yt-mini" title="Otvoriť YouTube kanál CapyGod" onclick="event.stopPropagation()">↗</a>
                     </div>
 
-                    <!-- 8. Štěps IRL -->
-                    <div class="client-card" data-client="stepsirl">
+                    <!-- 7. Štěps IRL -->
+                    <div class="client-card" data-client="stepsirl" onclick="selectClient('stepsirl')">
                         <div class="client-avatar-wrap">
                             <img src="https://zyfonix.eu/stepsirl.jpg" data-client-img="stepsirl" data-stage="0" alt="Štěps IRL" onerror="handleClientAvatarError(this, 'stepsirl')">
                             <div class="letter-avatar" style="display:none">Š</div>
                         </div>
                         <div class="client-meta">
                             <div class="client-name">Štěps IRL</div>
-                            <div class="client-subs">YouTube</div>
+                            <div class="client-subs" data-subs-full="stepsirl">YouTube</div>
                         </div>
                         <a href="https://www.youtube.com/channel/UCuQwP1mNT0Nl0LBu4tSXhgw" target="_blank" rel="noopener noreferrer" class="client-yt-mini" title="Otvoriť YouTube kanál Štěps IRL" onclick="event.stopPropagation()">↗</a>
-                    </div>
-
-                    <!-- 9. JonglesGTA -->
-                    <div class="client-card" data-client="jongles">
-                        <div class="client-avatar-wrap">
-                            <img src="https://zyfonix.eu/jongles.jpg" data-client-img="jongles" data-stage="0" alt="JonglesGTA" onerror="handleClientAvatarError(this, 'jongles')">
-                            <div class="letter-avatar" style="display:none">J</div>
-                        </div>
-                        <div class="client-meta">
-                            <div class="client-name">JonglesGTA</div>
-                            <div class="client-subs">YouTube</div>
-                        </div>
-                        <a href="https://www.youtube.com/@JonglesGTA" target="_blank" rel="noopener noreferrer" class="client-yt-mini" title="Otvoriť YouTube kanál JonglesGTA" onclick="event.stopPropagation()">↗</a>
                     </div>
                 </div>
 
@@ -2211,6 +2163,38 @@
                     </div>
                     <div class="video-info">
                         <div class="video-title" id="title-bgl_agnHtB8">Kdo má lepší BICÁK?</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section (Skyf in Czech) -->
+    <section id="reviews">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-eyebrow"><span class="dot"></span> Recenzie</div>
+                <h2 class="section-title">Čo hovoria klienti</h2>
+                <p class="section-desc">Reálne skúsenosti tvorcov, s ktorými spolupracujem.</p>
+            </div>
+
+            <div class="reviews-grid">
+                <div class="surface-card review-card">
+                    <div class="review-stars">
+                        <span class="stars-row">★★★★★</span>
+                        <span class="verified-pill">✓ Overená spolupráca</span>
+                    </div>
+                    <p class="review-text">„Kvalitní edit, jsem velmi spokojený. Doporučuji každému, kdo hledá spolehlivého editora!“</p>
+                    <div class="review-footer">
+                        <div class="review-author-left">
+                            <img src="https://zyfonix.eu/skyf.jpg" data-client-img="skyf" data-stage="0" alt="Skyf" class="review-avatar" onerror="handleClientAvatarError(this, 'skyf')">
+                            <div class="letter-avatar" style="display:none; width:54px; height:54px;">S</div>
+                            <div>
+                                <div class="review-author-name">Skyf</div>
+                                <div class="review-author-subs"><span data-subs-full="skyf">130K+ odberateľov</span> • YouTube</div>
+                            </div>
+                        </div>
+                        <a href="https://www.youtube.com/@SkyfCS" target="_blank" rel="noopener noreferrer" class="yt-channel-pill">YouTube ↗</a>
                     </div>
                 </div>
             </div>
@@ -2278,57 +2262,6 @@
         </div>
     </section>
 
-    <!-- Reviews Section -->
-    <section id="reviews">
-        <div class="container">
-            <div class="section-header">
-                <div class="section-eyebrow"><span class="dot"></span> Recenzie</div>
-                <h2 class="section-title">Čo hovoria klienti</h2>
-                <p class="section-desc">Reálne skúsenosti tvorcov, s ktorými spolupracujem.</p>
-            </div>
-
-            <div class="reviews-grid">
-                <div class="surface-card review-card">
-                    <div class="review-stars">
-                        <span class="stars-row">★★★★★</span>
-                        <span class="verified-pill">✓ Overená spolupráca</span>
-                    </div>
-                    <p class="review-text">„Kvalitný edit, som veľmi spokojný. Odporúčam každému, kto hľadá spoľahlivého editora!“</p>
-                    <div class="review-footer">
-                        <div class="review-author-left">
-                            <img src="https://zyfonix.eu/skyf.jpg" data-client-img="skyf" data-stage="0" alt="Skyf" class="review-avatar" onerror="handleClientAvatarError(this, 'skyf')">
-                            <div class="letter-avatar" style="display:none; width:54px; height:54px;">S</div>
-                            <div>
-                                <div class="review-author-name">Skyf</div>
-                                <div class="review-author-subs">130K+ odberateľov • YouTube</div>
-                            </div>
-                        </div>
-                        <a href="https://www.youtube.com/@SkyfCS" target="_blank" rel="noopener noreferrer" class="yt-channel-pill">YouTube ↗</a>
-                    </div>
-                </div>
-
-                <div class="surface-card review-card">
-                    <div class="review-stars">
-                        <span class="stars-row">★★★★★</span>
-                        <span class="verified-pill">✓ Overená spolupráca</span>
-                    </div>
-                    <p class="review-text">„Skvele edituje a kvalita videí je úžasná, prácu splní rýchle — doporučujem všetkým 🙏“</p>
-                    <div class="review-footer">
-                        <div class="review-author-left">
-                            <img src="https://zyfonix.eu/simonyt.jpg" data-client-img="simonyt" data-stage="0" alt="ŠimonYT" class="review-avatar" onerror="handleClientAvatarError(this, 'simonyt')">
-                            <div class="letter-avatar" style="display:none; width:54px; height:54px;">Š</div>
-                            <div>
-                                <div class="review-author-name">ŠimonYT</div>
-                                <div class="review-author-subs">1,7K+ odberateľov • YouTube & IG</div>
-                            </div>
-                        </div>
-                        <a href="https://www.youtube.com/@%C5%A1imonvencl" target="_blank" rel="noopener noreferrer" class="yt-channel-pill">YouTube ↗</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- FAQ Section -->
     <section id="faq">
         <div class="container">
@@ -2340,7 +2273,7 @@
 
             <div class="faq-wrap">
                 <div class="faq-item open">
-                    <button class="faq-question" type="button">
+                    <button class="faq-question" type="button" onclick="toggleFaq(this)">
                         <span>Ako rýchlo dodáš hotové video?</span>
                         <span class="faq-icon">+</span>
                     </button>
@@ -2350,7 +2283,7 @@
                 </div>
 
                 <div class="faq-item">
-                    <button class="faq-question" type="button">
+                    <button class="faq-question" type="button" onclick="toggleFaq(this)">
                         <span>Aké typy videí upravuješ?</span>
                         <span class="faq-icon">+</span>
                     </button>
@@ -2360,7 +2293,7 @@
                 </div>
 
                 <div class="faq-item">
-                    <button class="faq-question" type="button">
+                    <button class="faq-question" type="button" onclick="toggleFaq(this)">
                         <span>Čo ak budem chcieť vo videu niečo upraviť?</span>
                         <span class="faq-icon">+</span>
                     </button>
@@ -2370,7 +2303,7 @@
                 </div>
 
                 <div class="faq-item">
-                    <button class="faq-question" type="button">
+                    <button class="faq-question" type="button" onclick="toggleFaq(this)">
                         <span>Ako prebieha posielanie záznamov a komunikácia?</span>
                         <span class="faq-icon">+</span>
                     </button>
@@ -2459,7 +2392,7 @@
     </div>
 
     <script>
-        // Safe localStorage wrapper (never crashes in mobile/file previewers)
+        // Safe localStorage wrapper
         function safeGetStorage(key) {
             try {
                 return window.localStorage ? window.localStorage.getItem(key) : null;
@@ -2473,13 +2406,14 @@
             } catch (e) {}
         }
 
-        // Clients, YouTube Channels & Videos Database
+        // 7 Active Clients, YouTube Channels & Videos Database
         const clients = {
             mgfitman: {
                 name: 'MGFitman',
                 channelUrl: 'https://www.youtube.com/@MGFitman',
                 ytHandle: 'MGFitman',
                 localImg: 'mgfitman.jpg',
+                defaultSubs: '800K+',
                 videos: [
                     { id: 'bgl_agnHtB8', isShort: true, fallbackTitle: 'Kdo má lepší BICÁK?' }
                 ]
@@ -2489,6 +2423,7 @@
                 channelUrl: 'https://www.youtube.com/@MGFitmanGaming',
                 ytHandle: 'MGFitmanGaming',
                 localImg: 'mgfitman_gaming.jpg',
+                defaultSubs: '250K+',
                 videos: [
                     { id: 'DIyRSMtodbk', isShort: true, fallbackTitle: 'MGFitman Gaming Short' }
                 ]
@@ -2498,6 +2433,7 @@
                 channelUrl: 'https://www.youtube.com/@SkyfCS',
                 ytHandle: 'SkyfCS',
                 localImg: 'skyf.jpg',
+                defaultSubs: '130K+',
                 videos: [
                     { id: '2RMiRz7Ii-s', isShort: false },
                     { id: 'KQqVkijipns', isShort: false },
@@ -2510,6 +2446,7 @@
                 channelUrl: 'https://www.youtube.com/channel/UCvT293-aCO9EbKaPJM3tA7Q',
                 ytHandle: 'TwiIeR',
                 localImg: 'twiler.jpg',
+                defaultSubs: '',
                 videos: [
                     { id: '4Rz7DuQ-DWc', isShort: false },
                     { id: 'CEyNgN4ZDEU', isShort: false },
@@ -2526,21 +2463,9 @@
                 channelUrl: 'https://www.youtube.com/@Nardosk1',
                 ytHandle: 'Nardosk1',
                 localImg: 'nardosk.jpg',
+                defaultSubs: '',
                 videos: [
                     { id: '0Ai8a5fje-o', isShort: false, fallbackTitle: 'MAL SOM 24 HODÍN NA ŽIVOT... TAKTO SOM ICH VYUŽIL' }
-                ]
-            },
-            simonyt: {
-                name: 'ŠimonYT',
-                channelUrl: 'https://www.youtube.com/@%C5%A1imonvencl',
-                ytHandle: 'šimonvencl',
-                localImg: 'simonyt.jpg',
-                videos: [
-                    { id: 'b0Y9Nb0_3VI', isShort: false },
-                    {
-                        type: 'instagram',
-                        url: 'https://www.instagram.com/reel/DapXZXAIgZl/?igsh=MTd3Y2hkbnE3ZWdhcw=='
-                    }
                 ]
             },
             capygod: {
@@ -2548,6 +2473,7 @@
                 channelUrl: 'https://www.youtube.com/@CapyGod_YT',
                 ytHandle: 'CapyGod_YT',
                 localImg: 'capygod.jpg',
+                defaultSubs: '',
                 videos: []
             },
             stepsirl: {
@@ -2555,18 +2481,12 @@
                 channelUrl: 'https://www.youtube.com/channel/UCuQwP1mNT0Nl0LBu4tSXhgw',
                 ytHandle: 'ŠtěpsIRL',
                 localImg: 'stepsirl.jpg',
-                videos: []
-            },
-            jongles: {
-                name: 'JonglesGTA',
-                channelUrl: 'https://www.youtube.com/@JonglesGTA',
-                ytHandle: 'JonglesGTA',
-                localImg: 'jongles.jpg',
+                defaultSubs: '',
                 videos: []
             }
         };
 
-        // Multi-stage Avatar Fallback: zyfonix.eu -> local file -> YouTube unavatar -> Letter Avatar (+ background yt3 resolver)
+        // Multi-stage Avatar Fallback: zyfonix.eu -> local file -> YouTube unavatar -> Letter Avatar
         function handleOwnerImgError(img) {
             const stage = parseInt(img.dataset.stage || '0', 10);
             if (stage === 0) {
@@ -2596,32 +2516,27 @@
             }
         }
 
-        async function resolveYouTubeChannelAvatars() {
-            let cached = {};
-            try {
-                cached = JSON.parse(safeGetStorage('zyfonix_yt_pfps_v3') || '{}');
-            } catch (e) {
-                cached = {};
+        // Daily YouTube Channel Avatar + Subscriber Count Sync (once every 24h)
+        function normalizeSubCount(rawText) {
+            if (!rawText) return '';
+            let s = rawText.replace(/subscribers|subscriber|odberateľov|odběratelů|odberatelia/gi, '').trim();
+            s = s.replace(/\s+/g, '').replace(/tis\.?/i, 'K').replace(/mil\.?/i, 'M').replace(',', '.');
+            if (/^\d+(\.\d+)?[KMkm]?$/.test(s)) {
+                return s.toUpperCase() + '+';
             }
+            return '';
+        }
 
-            Object.keys(clients).forEach(async (key) => {
-                const c = clients[key];
-                if (cached[key]) {
-                    applyChannelAvatar(key, cached[key]);
-                    return;
-                }
-                try {
-                    const res = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(c.channelUrl)}`);
-                    if (!res.ok) return;
-                    const html = await res.text();
-                    const match = html.match(/property="og:image"\s+content="([^"]+)"/i) || html.match(/https:\/\/yt3\.googleusercontent\.com\/[^"'\s<>]+/i);
-                    const url = match ? (match[1] || match[0]) : null;
-                    if (url && url.startsWith('http')) {
-                        cached[key] = url;
-                        safeSetStorage('zyfonix_yt_pfps_v3', JSON.stringify(cached));
-                        applyChannelAvatar(key, url);
-                    }
-                } catch (e) {}
+        function applyClientSubs(subsMap) {
+            Object.keys(subsMap).forEach(key => {
+                const subVal = subsMap[key];
+                if (!subVal) return;
+                document.querySelectorAll(`[data-subs-short="${key}"]`).forEach(el => {
+                    el.textContent = subVal;
+                });
+                document.querySelectorAll(`[data-subs-full="${key}"]`).forEach(el => {
+                    el.textContent = `${subVal} odberateľov`;
+                });
             });
         }
 
@@ -2635,6 +2550,65 @@
                     img.src = avatarUrl;
                 }
             });
+        }
+
+        async function syncDailyYouTubeChannels() {
+            const SUBS_STORAGE_KEY = 'zyfonix_daily_yt_subs_v2';
+            const PFPS_STORAGE_KEY = 'zyfonix_yt_pfps_v4';
+            const ONE_DAY_MS = 24 * 60 * 60 * 1000;
+
+            let cachedPfps = {};
+            try {
+                cachedPfps = JSON.parse(safeGetStorage(PFPS_STORAGE_KEY) || '{}');
+            } catch (e) { cachedPfps = {}; }
+
+            Object.keys(cachedPfps).forEach(k => applyChannelAvatar(k, cachedPfps[k]));
+
+            try {
+                const rawSubs = safeGetStorage(SUBS_STORAGE_KEY);
+                if (rawSubs) {
+                    const parsedSubs = JSON.parse(rawSubs);
+                    if (parsedSubs && parsedSubs.subs && parsedSubs.timestamp) {
+                        applyClientSubs(parsedSubs.subs);
+                        if (Date.now() - parsedSubs.timestamp < ONE_DAY_MS) return;
+                    }
+                }
+            } catch (e) {}
+
+            const freshSubs = {};
+            await Promise.allSettled(Object.keys(clients).map(async (key) => {
+                const c = clients[key];
+                try {
+                    const res = await fetch(`https://api.allorigins.win/raw?url=${encodeURIComponent(c.channelUrl)}`);
+                    if (!res.ok) return;
+                    const html = await res.text();
+
+                    // Extract Avatar
+                    const imgMatch = html.match(/property="og:image"\s+content="([^"]+)"/i) || html.match(/https:\/\/yt3\.googleusercontent\.com\/[^"'\s<>]+/i);
+                    const avatarUrl = imgMatch ? (imgMatch[1] || imgMatch[0]) : null;
+                    if (avatarUrl && avatarUrl.startsWith('http')) {
+                        cachedPfps[key] = avatarUrl;
+                        applyChannelAvatar(key, avatarUrl);
+                    }
+
+                    // Extract Subscriber Count
+                    const subMatch = html.match(/"subscriberCountText":\s*\{\s*"(?:simpleText|accessibility)":\s*(?:\{\s*"accessibilityData":\s*\{\s*"label":\s*)?"([^"]+)"/i)
+                        || html.match(/([\d.,]+\s*(?:K|M|tis\.|mil\.)?)\s*(?:subscribers|odberateľov|odběratelů)/i);
+                    if (subMatch && subMatch[1]) {
+                        const formattedSub = normalizeSubCount(subMatch[1]);
+                        if (formattedSub) freshSubs[key] = formattedSub;
+                    }
+                } catch (e) {}
+            }));
+
+            safeSetStorage(PFPS_STORAGE_KEY, JSON.stringify(cachedPfps));
+            if (Object.keys(freshSubs).length > 0) {
+                applyClientSubs(freshSubs);
+                safeSetStorage(SUBS_STORAGE_KEY, JSON.stringify({
+                    timestamp: Date.now(),
+                    subs: freshSubs
+                }));
+            }
         }
 
         // Scroll Progress Bar
@@ -2712,6 +2686,15 @@
                     navLinks.classList.remove('active');
                 });
             });
+        }
+
+        // Direct FAQ Toggle Function
+        function toggleFaq(btn) {
+            const item = btn.parentElement;
+            if (!item) return;
+            const isOpen = item.classList.contains('open');
+            document.querySelectorAll('.faq-item').forEach(other => other.classList.remove('open'));
+            if (!isOpen) item.classList.add('open');
         }
 
         // Video Titles, Thumbnails & Rendering
@@ -2804,17 +2787,6 @@
 
                 const playSvg = `<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>`;
                 grid.innerHTML = vids.map((v) => {
-                    if (v.type === 'instagram') {
-                        return `<div class="video-card" onclick="openInstagramEmbed('${v.url}')">
-                            <div class="video-thumb-wrap ig-thumb" style="aspect-ratio: 9/16;">
-                                <span class="platform-badge">IG REEL</span>
-                                <div class="play-btn-overlay">${playSvg}</div>
-                            </div>
-                            <div class="video-info">
-                                <div class="video-title">Instagram Reel – ${clientData.name}</div>
-                            </div>
-                        </div>`;
-                    }
                     const isShort = v.isShort;
                     const ar = isShort ? '9/16' : '16/9';
                     const badge = isShort ? 'YT SHORT' : 'YOUTUBE';
@@ -2840,7 +2812,6 @@
                 grid.style.opacity = '1';
 
                 vids.forEach(async (v) => {
-                    if (v.type === 'instagram') return;
                     const title = await getTitle(v.id, v.fallbackTitle || 'YouTube Video');
                     const titleEl = document.getElementById(`title-${v.id}`);
                     if (titleEl && title) titleEl.textContent = title;
@@ -2848,19 +2819,18 @@
             }, 120);
         }
 
-        function selectClientFromMarquee(clientKey) {
-            const card = document.querySelector(`.client-card[data-client="${clientKey}"]`);
-            if (card) {
-                document.querySelectorAll('.client-card').forEach(c => c.classList.remove('active'));
-                card.classList.add('active');
-                renderVideos(clientKey);
-            }
+        function selectClient(clientKey) {
+            if (!clients[clientKey]) return;
+            document.querySelectorAll('.client-card').forEach(c => {
+                c.classList.toggle('active', c.dataset.client === clientKey);
+            });
+            renderVideos(clientKey);
         }
 
         // Daily Automatic YouTube Views Sync
         const MIN_GUARANTEED_VIEWS = 562000;
         const NON_YT_VIEWS_OFFSET = 85000;
-        const VIEWS_CACHE_KEY = 'zyfonix_daily_yt_views_v4';
+        const VIEWS_CACHE_KEY = 'zyfonix_daily_yt_views_v5';
         const ONE_DAY_MS = 24 * 60 * 60 * 1000;
 
         function updateViewsUI(totalViews, byVideo) {
@@ -2938,20 +2908,6 @@
             openVideoModal(html, isShort ? '400px' : '920px');
         }
 
-        function openInstagramEmbed(url) {
-            const html = `<blockquote class="instagram-media" data-instgrm-permalink="${url}" data-instgrm-version="14" style="margin:0 auto; max-width:400px; width:100%; background:#fff; border-radius:12px;"></blockquote>`;
-            openVideoModal(html, '400px');
-            if (window.instgrm && window.instgrm.Embeds) {
-                window.instgrm.Embeds.process();
-            } else if (!document.getElementById('ig-embed-script')) {
-                const script = document.createElement('script');
-                script.id = 'ig-embed-script';
-                script.src = 'https://www.instagram.com/embed.js';
-                script.async = true;
-                document.body.appendChild(script);
-            }
-        }
-
         function openVideoModal(html, maxWidth) {
             const modal = document.getElementById('video-modal');
             const inner = document.getElementById('video-modal-inner');
@@ -2981,26 +2937,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             renderVideos('mgfitman');
             syncDailyYouTubeViews();
-            resolveYouTubeChannelAvatars();
-
-            document.querySelectorAll('.client-card').forEach(card => {
-                card.addEventListener('click', () => {
-                    if (card.classList.contains('active')) return;
-                    document.querySelectorAll('.client-card').forEach(c => c.classList.remove('active'));
-                    card.classList.add('active');
-                    renderVideos(card.dataset.client);
-                });
-            });
-
-            // FAQ Accordion
-            document.querySelectorAll('.faq-question').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const item = btn.parentElement;
-                    const isOpen = item.classList.contains('open');
-                    document.querySelectorAll('.faq-item').forEach(other => other.classList.remove('open'));
-                    if (!isOpen) item.classList.add('open');
-                });
-            });
+            syncDailyYouTubeChannels();
 
             // Copy Email Button
             const copyBtn = document.getElementById('copy-email-btn');
@@ -3073,7 +3010,7 @@
             }
             update() {
                 this.x += this.vx;
-                this.y += p_vy(this);
+                this.y += this.vy;
                 if (this.x < 0) this.x = width;
                 if (this.x > width) this.x = 0;
                 if (this.y < 0) this.y = height;
@@ -3086,7 +3023,6 @@
                 ctx.fill();
             }
         }
-        function p_vy(p) { return p.vy; }
 
         for (let i = 0; i < PARTICLE_COUNT; i++) particles.push(new Particle());
 
@@ -3152,3 +3088,4 @@
 </body>
 
 </html>
+
